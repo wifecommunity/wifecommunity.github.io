@@ -768,7 +768,7 @@ body:not(.admin-logged-in) .roster-avatar-wrap input[type=file]{display:none !im
   cursor:pointer; transition:all 0.2s; text-decoration:none;
 }
 .bn-more-item:hover { background:rgba(184,69,245,0.2); border-color:var(--neon-purple); transform:translateY(-2px); }
-.bn-more-item .bm-icon { font-size:1.5rem; }
+.bn-more-item .bm-icon { font-size:1.5rem; display:flex; align-items:center; justify-content:center; color:#c8a8e8; }
 .bn-more-item .bm-label { font-family:'Rajdhani',sans-serif; font-weight:700; font-size:0.65rem; letter-spacing:0.5px; color:#c8a8e8; text-align:center; }
 body { padding-bottom:65px; }
 
@@ -902,17 +902,17 @@ footer {
       <span style="font-family:'Orbitron',monospace;font-weight:900;font-size:0.9rem;background:linear-gradient(135deg,#fff,#b845f5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">W.I.F.E</span>
       <button onclick="closeMob()" style="background:rgba(184,69,245,0.2);border:1px solid rgba(184,69,245,0.3);color:#fff;width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:1rem;">✕</button>
     </div>
-    <a href="#" onclick="gpMob('home')" class="mlink">🏠 HOME</a>
-    <a href="#" onclick="gpMob('about')" class="mlink">📖 TENTANG W.I.F.E</a>
-    <a href="#" onclick="gpMob('management')" class="mlink">🏛️ MANAGEMENT & SQUAD</a>
-    <a href="#" onclick="gpMob('members')" class="mlink">👥 MEMBER CENTER</a>
-    <a href="#" onclick="gpMob('competitive')" class="mlink">🏆 COMPETITIVE</a>
-    <a href="#" onclick="gpMob('events')" class="mlink">📅 EVENT CENTER</a>
+    <a href="#" onclick="gpMob('home')" class="mlink"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> HOME</a>
+    <a href="#" onclick="gpMob('about')" class="mlink" style="display:flex;align-items:center;gap:8px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> TENTANG W.I.F.E</a>
+    <a href="#" onclick="gpMob('management')" class="mlink"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> MANAGEMENT & SQUAD</a>
+    <a href="#" onclick="gpMob('members')" class="mlink"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> MEMBER CENTER</a>
+    <a href="#" onclick="gpMob('competitive')" class="mlink"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> COMPETITIVE</a>
+    <a href="#" onclick="gpMob('events')" class="mlink"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> EVENT CENTER</a>
 
-    <a href="#" onclick="gpMob('rules')" class="mlink">📜 RULES</a>
-    <a href="#" onclick="gpMob('media')" class="mlink">🌐 MEDIA CENTER</a>
-    <a href="#" onclick="gpMob('partnership')" class="mlink">🤝 PARTNERSHIP</a>
-    <a href="#" onclick="gpMob('achievement')" class="mlink">🏅 ACHIEVEMENT</a>
+    <a href="#" onclick="gpMob('rules')" class="mlink"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> RULES</a>
+    <a href="#" onclick="gpMob('media')" class="mlink"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> MEDIA CENTER</a>
+    <a href="#" onclick="gpMob('partnership')" class="mlink"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> PARTNERSHIP</a>
+    <a href="#" onclick="gpMob('achievement')" class="mlink"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg> ACHIEVEMENT</a>
     <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(184,69,245,0.2);">
       <button onclick="closeMob();openAdminLogin();" style="width:100%;background:linear-gradient(135deg,#b845f5,#e040fb);border:none;color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:1px;padding:9px;border-radius:8px;cursor:pointer;">⚙️ ADMIN PANEL</button>
     </div>
@@ -950,7 +950,7 @@ footer {
       <div id="homeAnnouncement">🎉 Selamat datang di W.I.F.E Official Website! Recruitment Squad 1–10 sedang dibuka. Bergabunglah sekarang!</div>
     </div>
 
-    <a href="https://docs.google.com/forms/d/1whbiMHjAQC9cV1Qic0zCbzZwzsyyVYFFCCWtwamtfK8/viewform" target="_blank" class="join-btn">⚔️ JOIN COMMUNITY</a>
+    <a href="https://docs.google.com/forms/d/1whbiMHjAQC9cV1Qic0zCbzZwzsyyVYFFCCWtwamtfK8/viewform" target="_blank" class="join-btn"> JOIN COMMUNITY</a>
 
     </div>
 
@@ -1099,9 +1099,9 @@ footer {
       <div class="divider"></div>
     </div>
     <div class="tabs">
-      <button class="tab-btn active" onclick="showTab('comp','alliance',this)">⚔️ ALLIANCE</button>
+      <button class="tab-btn active" onclick="showTab('comp','alliance',this)"> ALLIANCE</button>
       <button class="tab-btn" onclick="showTab('comp','aurora',this)">✨ AURORA</button>
-      <button class="tab-btn" onclick="showTab('comp','schedule',this)">📅 JADWAL</button>
+      <button class="tab-btn" onclick="showTab('comp','schedule',this)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> JADWAL</button>
       <button class="tab-btn" onclick="showTab('comp','stats',this)">📊 STATISTIK</button>
     </div>
 
@@ -1120,7 +1120,7 @@ footer {
           </div>
         </div>
         <div style="padding:20px;">
-          <div style="font-family:Rajdhani,sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:2px;color:#c89630;margin-bottom:14px;border-bottom:1px solid #c8963033;padding-bottom:8px;">👥 ROSTER TIM</div>
+          <div style="font-family:Rajdhani,sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:2px;color:#c89630;margin-bottom:14px;border-bottom:1px solid #c8963033;padding-bottom:8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> ROSTER TIM</div>
           <div class="cards-grid" id="allianceTeamGrid" style="gap:12px;"></div>
         </div>
       </div>
@@ -1141,7 +1141,7 @@ footer {
           </div>
         </div>
         <div style="padding:20px;">
-          <div style="font-family:Rajdhani,sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:2px;color:#60c8f0;margin-bottom:14px;border-bottom:1px solid #60c8f033;padding-bottom:8px;">👥 ROSTER TIM</div>
+          <div style="font-family:Rajdhani,sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:2px;color:#60c8f0;margin-bottom:14px;border-bottom:1px solid #60c8f033;padding-bottom:8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> ROSTER TIM</div>
           <div class="cards-grid" id="auroraTeamGrid" style="gap:12px;"></div>
         </div>
       </div>
@@ -1154,7 +1154,7 @@ footer {
     <div class="tab-content" id="comp-stats">
       <div class="cards-grid">
         <div class="card"><div class="card-icon">🏆</div><div class="card-title">TOTAL TOURNAMENT</div><div class="stat-num" style="font-size:2.5rem">18</div></div>
-        <div class="card"><div class="card-icon">✅</div><div class="card-title">TOTAL WINS</div><div class="stat-num" style="font-size:2.5rem">12</div></div>
+        <div class="card"><div class="card-icon">✓</div><div class="card-title">TOTAL WINS</div><div class="stat-num" style="font-size:2.5rem">12</div></div>
         <div class="card"><div class="card-icon">📊</div><div class="card-title">WIN RATE</div><div class="stat-num" style="font-size:2.5rem">67%</div></div>
         <div class="card"><div class="card-icon">⭐</div><div class="card-title">MVP TOTAL</div><div class="stat-num" style="font-size:2.5rem">84</div></div>
       </div>
@@ -1210,7 +1210,7 @@ footer {
       <div class="divider"></div>
     </div>
     <div class="tabs">
-      <button class="tab-btn active" onclick="showTab('hp','roamer',this)">⚔️ ROAMER</button>
+      <button class="tab-btn active" onclick="showTab('hp','roamer',this)"> ROAMER</button>
       <button class="tab-btn" onclick="showTab('hp','jungler',this)">🌿 JUNGLER</button>
       <button class="tab-btn" onclick="showTab('hp','gold',this)">💰 GOLD LANE</button>
       <button class="tab-btn" onclick="showTab('hp','mid',this)">🔮 MID LANE</button>
@@ -1329,7 +1329,7 @@ footer {
     <div class="form-group">
       <label class="form-label">PASSWORD</label>
       <input type="password" class="form-input" id="adminPassword" placeholder="••••••••">
-      <div class="form-error" id="loginError">❌ Email atau password salah!</div>
+      <div class="form-error" id="loginError">✕ Email atau password salah!</div>
     </div>
     <button class="btn-primary" onclick="doAdminLogin()">⚡ MASUK</button>
   </div>
@@ -1341,7 +1341,7 @@ footer {
       <div class="admin-title">⚙️ ADMIN PANEL — W.I.F.E</div>
       <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
         <span style="font-size:0.8rem;color:var(--muted);">Logged in: <span style="color:var(--neon-purple)">Wife26@gmail.com</span></span>
-        <button onclick="dbSave()" style="background:linear-gradient(135deg,#9b7db8,#b845f5);border:none;color:#fff;font-family:Rajdhani,sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:1px;padding:8px 18px;border-radius:8px;cursor:pointer;">☁️ SIMPAN KE CLOUD</button>
+        <button onclick="dbSave()" style="background:linear-gradient(135deg,#9b7db8,#b845f5);border:none;color:#fff;font-family:Rajdhani,sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:1px;padding:8px 18px;border-radius:8px;cursor:pointer;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg> SIMPAN KE CLOUD</button>
         <button class="btn-danger" onclick="doAdminLogout()">LOGOUT</button>
       </div>
     </div>
@@ -1349,7 +1349,7 @@ footer {
     <div class="admin-grid">
 
       <div class="admin-card">
-        <div class="admin-card-title">🖼️ BANNER HERO</div>
+        <div class="admin-card-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> BANNER HERO</div>
         <div class="upload-zone" id="bannerUploadZone">
           <input type="file" accept="image/*" onchange="handleBannerUpload(this)">
           <span class="upload-icon" id="bannerPreviewIcon">📤</span>
@@ -1360,16 +1360,16 @@ footer {
       </div>
 
       <div class="admin-card">
-        <div class="admin-card-title">📢 EDIT PENGUMUMAN</div>
+        <div class="admin-card-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> EDIT PENGUMUMAN</div>
         <div class="announce-editor">
           <textarea class="admin-textarea" id="announcementEditor" rows="3">🎉 Selamat datang di W.I.F.E Official Website! Recruitment Squad 1–10 sedang dibuka. Bergabunglah sekarang!</textarea>
         </div>
         <br>
-        <button class="btn-save" onclick="saveAnnouncement()">💾 SIMPAN</button>
+        <button class="btn-save" onclick="saveAnnouncement()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> SIMPAN</button>
       </div>
 
       <div class="admin-card">
-        <div class="admin-card-title">📊 EDIT STATISTIK</div>
+        <div class="admin-card-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> EDIT STATISTIK</div>
         <label class="form-label">Member Aktif</label>
         <input type="number" class="admin-input" id="editStatMembers" value="247">
         <label class="form-label">Squad Aktif</label>
@@ -1378,16 +1378,16 @@ footer {
         <input type="number" class="admin-input" id="editStatTournaments" value="18">
         <label class="form-label">Total Wins</label>
         <input type="number" class="admin-input" id="editStatWins" value="12">
-        <button class="btn-save" onclick="saveStats()">💾 SIMPAN</button>
+        <button class="btn-save" onclick="saveStats()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> SIMPAN</button>
       </div>
 
       <div class="admin-card" style="grid-column:span 2;">
-        <div class="admin-card-title">👥 FOTO MANAGEMENT & SQUAD LEADER</div>
+        <div class="admin-card-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> FOTO MANAGEMENT & SQUAD LEADER</div>
         <div class="avatar-grid" id="adminAvatarGrid"></div>
       </div>
 
       <div class="admin-card" style="grid-column:span 2;">
-        <div class="admin-card-title">👥 EDIT MANAGEMENT & SQUAD LEADER</div>
+        <div class="admin-card-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> EDIT MANAGEMENT & SQUAD LEADER</div>
         <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
           <select class="admin-input" id="mgmtEditSection" style="flex:1;" onchange="renderMgmtEditor()">
             <option value="core">Core Team (Management)</option>
@@ -1399,7 +1399,7 @@ footer {
       </div>
 
       <div class="admin-card">
-        <div class="admin-card-title">➕ TAMBAH MEMBER</div>
+        <div class="admin-card-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> TAMBAH MEMBER</div>
         <input type="text" class="admin-input" id="newMemberName" placeholder="Nickname">
         <div class="role-picker-label">ROLE (bisa pilih lebih dari 1)</div>
         <div class="role-picker" id="newMemberRolePicker">
@@ -1441,7 +1441,7 @@ footer {
       </div>
 
       <div class="admin-card">
-        <div class="admin-card-title">📅 TAMBAH EVENT</div>
+        <div class="admin-card-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> TAMBAH EVENT</div>
         <input type="text" class="admin-input" id="newEventTitle" placeholder="Judul Event">
         <select class="admin-input" id="newEventType">
           <option>Scrim Internal</option><option>Rank Session</option>
@@ -1455,7 +1455,7 @@ footer {
           <span style="font-size:1.5rem;">🖼️</span>
           <div style="font-size:0.8rem;margin-top:4px;">Upload poster portrait</div>
         </div>
-        <button class="btn-save" onclick="addEvent()" style="margin-top:12px;">➕ TAMBAH EVENT</button>
+        <button class="btn-save" onclick="addEvent()" style="margin-top:12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> TAMBAH EVENT</button>
         <div style="margin-top:16px;border-top:1px solid rgba(184,69,245,0.2);padding-top:12px;">
           <div style="font-family:Rajdhani,sans-serif;font-size:0.8rem;color:var(--muted);letter-spacing:1px;margin-bottom:8px;">DAFTAR EVENT</div>
           <div id="adminEventList"></div>
@@ -1463,7 +1463,7 @@ footer {
       </div>
 
       <div class="admin-card">
-        <div class="admin-card-title">🤝 TAMBAH PARTNER/SPONSOR</div>
+        <div class="admin-card-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> TAMBAH PARTNER/SPONSOR</div>
         <input type="text" class="admin-input" id="newPartnerName" placeholder="Nama Partner/Sponsor">
         <select class="admin-input" id="newPartnerCat">
           <option value="official">⭐ Official Partner</option>
@@ -1472,8 +1472,8 @@ footer {
           <option value="community">🤝 Community Partner</option>
         </select>
         <textarea class="admin-input" id="newPartnerDesc" placeholder="Deskripsi singkat..." rows="3" style="resize:vertical;"></textarea>
-        <input type="text" class="admin-input" id="newPartnerTags" placeholder="Tags (pisah dengan koma, contoh: 🏆 COMPETITIVE, ⚔️ SCRIM)">
-        <button class="btn-save" onclick="addPartner()" style="margin-top:12px;">➕ TAMBAH PARTNER</button>
+        <input type="text" class="admin-input" id="newPartnerTags" placeholder="Tags (pisah dengan koma, contoh: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> COMPETITIVE,  SCRIM)">
+        <button class="btn-save" onclick="addPartner()" style="margin-top:12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> TAMBAH PARTNER</button>
         <div style="margin-top:16px;border-top:1px solid rgba(184,69,245,0.2);padding-top:12px;">
           <div style="font-family:Rajdhani,sans-serif;font-size:0.8rem;color:var(--muted);letter-spacing:1px;margin-bottom:8px;">DAFTAR PARTNER</div>
           <div id="adminPartnerList"></div>
@@ -1481,7 +1481,7 @@ footer {
       </div>
 
       <div class="admin-card">
-        <div class="admin-card-title">📸 UPLOAD MEDIA</div>
+        <div class="admin-card-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg> UPLOAD MEDIA</div>
         <select class="admin-input" id="mediaCategory">
           <option value="match">Match Screenshot</option>
           <option value="event">Dokumentasi Event</option>
@@ -1504,13 +1504,13 @@ Dilarang melakukan boosting atau jual beli akun.
 Hormati sesama member tanpa memandang rank atau skill.
 Ikuti instruksi dari management dan squad leader.
 Gunakan nickname yang sopan dan mudah dikenali.</textarea>
-      <button class="btn-save" onclick="saveRules()">💾 SIMPAN RULES</button>
+      <button class="btn-save" onclick="saveRules()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> SIMPAN RULES</button>
     </div>
 
   </div>
 </div>
 
-<div class="toast" id="toast">✅ Perubahan berhasil disimpan!</div>
+<div class="toast" id="toast">✓ Perubahan berhasil disimpan!</div>
 
 <footer>
   <div class="footer-logo">W.I.F.E</div>
@@ -1688,22 +1688,22 @@ let siteData = {
     { name:'Eleanor', role:'Manager Tim Kompetitif', badge:'🏆 Manager', emoji:'🏆', wa:'62895321399766' },
     { name:'Lazuardi', role:'Manager Tim Kompetitif', badge:'🏆 Manager', emoji:'🏆', wa:'6285113623483' },
     { name:'Alexx', role:'Kapten Tim Kompetitif', badge:'🎯 Kapten', emoji:'🎯', wa:'6283844633588' },
-    { name:'Admin EO 1', role:'Admin Event Organizer', badge:'📅 Admin EO', emoji:'📅' },
-    { name:'Admin EO 2', role:'Admin Event Organizer', badge:'📅 Admin EO', emoji:'📅' },
+    { name:'Admin EO 1', role:'Admin Event Organizer', badge:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Admin EO', emoji:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' },
+    { name:'Admin EO 2', role:'Admin Event Organizer', badge:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Admin EO', emoji:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' },
     { name:'Reina', role:'Admin Sosmed', badge:'📱 Admin Sosmed', emoji:'📱', wa:'6283159130202' },
     { name:'Athena', role:'Admin Sosmed', badge:'📱 Admin Sosmed', emoji:'📱', wa:'6282131746033' },
   ],
   squadLeaders: [
-    { name:'Reina', squad:'Squad 1', emoji:'⚔️', wa:'6283159130202' },
-    { name:'Nugi', squad:'Squad 2', emoji:'⚔️', wa:'6282393654697' },
-    { name:'Athena', squad:'Squad 3', emoji:'⚔️', wa:'6282131746033' },
-    { name:'Shita', squad:'Squad 4', emoji:'⚔️', wa:'6282235558072' },
-    { name:'Eleanor', squad:'Squad 5', emoji:'⚔️', wa:'62895321399766' },
-    { name:'Claudya', squad:'Squad 6', emoji:'⚔️', wa:'6285234025927' },
-    { name:'Ashley', squad:'Squad 7', emoji:'⚔️', wa:'6285782629404' },
-    { name:'Foxxa', squad:'Squad 8', emoji:'⚔️', wa:'6287722620574' },
-    { name:'Levi', squad:'Squad 9', emoji:'⚔️', wa:'6283871747272' },
-    { name:'Aera', squad:'Squad 10', emoji:'⚔️', wa:'6289684649017' },
+    { name:'Reina', squad:'Squad 1', emoji:'', wa:'6283159130202' },
+    { name:'Nugi', squad:'Squad 2', emoji:'', wa:'6282393654697' },
+    { name:'Athena', squad:'Squad 3', emoji:'', wa:'6282131746033' },
+    { name:'Shita', squad:'Squad 4', emoji:'', wa:'6282235558072' },
+    { name:'Eleanor', squad:'Squad 5', emoji:'', wa:'62895321399766' },
+    { name:'Claudya', squad:'Squad 6', emoji:'', wa:'6285234025927' },
+    { name:'Ashley', squad:'Squad 7', emoji:'', wa:'6285782629404' },
+    { name:'Foxxa', squad:'Squad 8', emoji:'', wa:'6287722620574' },
+    { name:'Levi', squad:'Squad 9', emoji:'', wa:'6283871747272' },
+    { name:'Aera', squad:'Squad 10', emoji:'', wa:'6289684649017' },
     { name:'Alexx', squad:'W.I.F.E Alliance', emoji:'🌐', wa:'6283844633588' },
     { name:'Lazuardi', squad:'W.I.F.E Aurora', emoji:'✨', wa:'6285113623483' },
   ],
@@ -1843,7 +1843,7 @@ let siteData = {
   ],
   heroPool: {
     roamer: [{name:'Atlas',icon:'🌊',mastery:95},{name:'Khufra',icon:'👊',mastery:90},{name:'Franco',icon:'⚓',mastery:85},{name:'Tigreal',icon:'🛡️',mastery:80},{name:'Akai',icon:'🐼',mastery:78}],
-    jungler: [{name:'Aamon',icon:'🗡️',mastery:95},{name:'Hayabusa',icon:'🍃',mastery:92},{name:'Lancelot',icon:'⚔️',mastery:88},{name:'Fanny',icon:'🪁',mastery:85},{name:'Ling',icon:'🌸',mastery:82}],
+    jungler: [{name:'Aamon',icon:'🗡️',mastery:95},{name:'Hayabusa',icon:'🍃',mastery:92},{name:'Lancelot',icon:'',mastery:88},{name:'Fanny',icon:'🪁',mastery:85},{name:'Ling',icon:'🌸',mastery:82}],
     gold: [{name:'Melissa',icon:'🧵',mastery:94},{name:'Beatrix',icon:'🔫',mastery:90},{name:'Irithel',icon:'🏹',mastery:87},{name:'Brody',icon:'💥',mastery:83},{name:'Clint',icon:'🤠',mastery:79}],
     mid: [{name:'Kagura',icon:'🌂',mastery:96},{name:'Lunox',icon:'🌙',mastery:91},{name:'Lylia',icon:'🐾',mastery:88},{name:'Yve',icon:'🌌',mastery:84},{name:'Chang\'e',icon:'🐇',mastery:80}],
     exp: [{name:'Yu Zhong',icon:'🐉',mastery:95},{name:'Esmeralda',icon:'🔮',mastery:91},{name:'Fredrinn',icon:'⛏️',mastery:87},{name:'X.Borg',icon:'🔥',mastery:83},{name:'Paquito',icon:'🥊',mastery:79}],
@@ -1860,11 +1860,11 @@ let siteData = {
     general: ['Dilarang menggunakan bahasa kasar atau hate speech dalam komunitas.','Wajib aktif dalam squad masing-masing minimal 3x seminggu.','Dilarang melakukan boosting atau jual beli akun.','Hormati sesama member tanpa memandang rank atau skill.','Ikuti instruksi dari management dan squad leader.','Gunakan nickname yang sopan dan mudah dikenali.'],
     ethics: ['Junjung tinggi sportivitas dalam setiap match.','Tidak menyalahkan rekan satu tim saat kalah.','Berikan dukungan positif kepada sesama anggota.','Tidak boleh melakukan toxic behaviour di chat in-game.','Menjaga nama baik komunitas di platform manapun.'],
     squad: ['Leader squad bertanggung jawab atas aktivitas anggotanya.','Wajib hadir dalam jadwal latihan yang telah ditentukan.','Minimal 5 member aktif per squad setiap minggu.','Laporkan ketidakhadiran minimal 1 hari sebelumnya.','Squad dengan aktivitas rendah 2 minggu berturut-turut akan direstrukturisasi.'],
-    punishment: ['⚠️ SP 1: Teguran tertulis di grup komunitas.','⚠️ SP 2: Tidak boleh mengikuti event selama 1 minggu.','⚠️ SP 3: Dikeluarkan dari squad dan kembali ke member umum.','🚫 Ban Permanen: Diberlakukan untuk pelanggaran berat (cheating, harassment).','Banding dapat diajukan kepada Owner dalam waktu 3x24 jam.'],
+    punishment: ['⚡ SP 1: Teguran tertulis di grup komunitas.','⚡ SP 2: Tidak boleh mengikuti event selama 1 minggu.','⚡ SP 3: Dikeluarkan dari squad dan kembali ke member umum.','🚫 Ban Permanen: Diberlakukan untuk pelanggaran berat (cheating, harassment).','Banding dapat diajukan kepada Owner dalam waktu 3x24 jam.'],
   },
   media: [
     { cat:'match', emoji:'🏆', label:'MLBB Spring Cup - Grand Final' },
-    { cat:'match', emoji:'⚔️', label:'Scrim vs Alpha Squad' },
+    { cat:'match', emoji:'', label:'Scrim vs Alpha Squad' },
     { cat:'event', emoji:'🎉', label:'Community Gathering Q1 2026' },
     { cat:'event', emoji:'📸', label:'Rank Session #10' },
     { cat:'poster', emoji:'🎨', label:'Recruitment Poster April' },
@@ -1872,7 +1872,7 @@ let siteData = {
   ],
   mediaImages: {},
   partners: [
-    { name:'Team Brave', category:'official', desc:'Tim esports profesional Mobile Legends Indonesia yang menjadi partner resmi W.I.F.E.', tags:'🏆 COMPETITIVE PARTNER, ⚔️ SCRIM PARTNER', logo:null }
+    { name:'Team Brave', category:'official', desc:'Tim esports profesional Mobile Legends Indonesia yang menjadi partner resmi W.I.F.E.', tags:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> COMPETITIVE PARTNER,  SCRIM PARTNER', logo:null }
   ],
 };
 
@@ -1947,7 +1947,7 @@ function renderMgmtCard(p, type) {
     +'<div class="mgmt-info">'
     +'<div class="mgmt-name">'+p.name+'</div>'
     +'<div class="mgmt-role">'+(p.role||p.squad)+'</div>'
-    +'<div class="mgmt-badge">'+(p.badge||'⚔️ Leader Squad')+'</div>'
+    +'<div class="mgmt-badge">'+(p.badge||' Leader Squad')+'</div>'
     +(p.wa ? '<a href="https://wa.me/'+p.wa+'" target="_blank" class="wa-btn"><img src="'+WA_LOGO+'" style="width:13px;height:13px;object-fit:contain;vertical-align:middle;"> WhatsApp</a>' : '')
     +'</div></div>';
 }
@@ -2098,7 +2098,7 @@ function renderEvents() {
         +'<div class="event-body" style="padding:12px 14px;">'
         +'<div style="margin-bottom:6px;"><span class="event-type" style="position:static;margin:0;">'+e.type+'</span></div>'
         +'<div class="event-title">'+e.title+'</div>'
-        +'<div class="event-meta"><span>📅 '+e.date+'</span>'
+        +'<div class="event-meta"><span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> '+e.date+'</span>'
         +'<span class="'+statusClass+'">'+statusText+'</span></div>'
         +'<div style="font-size:0.82rem;color:var(--muted);margin-top:8px;">'+e.desc+'</div>'
         +'</div></div>';
@@ -2109,7 +2109,7 @@ function renderEvents() {
         +'<span class="event-type" style="z-index:2;position:relative;">'+e.type+'</span></div>'
         +'<div class="event-body">'
         +'<div class="event-title">'+e.title+'</div>'
-        +'<div class="event-meta"><span>📅 '+e.date+'</span>'
+        +'<div class="event-meta"><span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> '+e.date+'</span>'
         +'<span class="'+statusClass+'">'+statusText+'</span></div>'
         +'<div style="font-size:0.82rem;color:var(--muted);margin-top:8px;">'+e.desc+'</div>'
         +'</div></div>';
@@ -2171,7 +2171,7 @@ function makeRosterCard(m, isLeader, borderColor, nameColor, roleColor, leaderLa
   // Avatar dengan overlay edit jika admin
   var avatarInner = avatarSrc
     ? '<img src="'+avatarSrc+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">'
-    : '<span style="font-size:1.5rem;">'+(isLeader?(borderColor==='#c89630'?'🌐':'✨'):'⚔️')+'</span>';
+    : '<span style="font-size:1.5rem;">'+(isLeader?(borderColor==='#c89630'?'🌐':'✨'):'')+'</span>';
 
   var editOverlay = adminOnly
     ? '<div style="position:absolute;inset:0;border-radius:50%;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.2s;font-size:0.65rem;color:#fff;font-family:Rajdhani,sans-serif;font-weight:700;letter-spacing:1px;text-align:center;cursor:pointer;" class="roster-edit-overlay">📷<br>EDIT</div>'
@@ -2203,7 +2203,7 @@ function rosterUploadPhoto(input, name, rerenderFn) {
     siteData.avatars[name] = url;
     if(rerenderFn === 'renderCompetitive') renderCompetitive();
     else { renderCoreTeam(); renderSquadLeaders(); }
-    showToast('✅ Foto '+name+' berhasil diupdate!');
+    showToast('✓ Foto '+name+' berhasil diupdate!');
   });
 }
 
@@ -2236,7 +2236,7 @@ function renderAdminAvatars() {
   var html = '<div style="font-family:Rajdhani,sans-serif;font-size:0.8rem;color:var(--muted);letter-spacing:1px;margin-bottom:8px;grid-column:1/-1;">⚙️ MANAGEMENT</div>';
   html += mgmt.map(makeAvaItem).join('');
   if(competitive.length) {
-    html += '<div style="font-family:Rajdhani,sans-serif;font-size:0.8rem;color:var(--muted);letter-spacing:1px;margin:12px 0 8px;grid-column:1/-1;">🏆 COMPETITIVE PLAYER</div>';
+    html += '<div style="font-family:Rajdhani,sans-serif;font-size:0.8rem;color:var(--muted);letter-spacing:1px;margin:12px 0 8px;grid-column:1/-1;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> COMPETITIVE PLAYER</div>';
     html += competitive.map(makeAvaItem).join('');
   }
   document.getElementById('adminAvatarGrid').innerHTML = html;
@@ -2288,7 +2288,7 @@ function doAdminLogout() {
   localStorage.removeItem('wifeAdmin');
   document.body.classList.remove('admin-logged-in');
   document.getElementById('adminPanel').classList.remove('open');
-  showToast('👋 Logout berhasil!');
+  showToast(' Logout berhasil!');
   // Reload dari Firebase setelah logout
   setTimeout(function(){ dbLoad(); }, 500);
 }
@@ -2299,7 +2299,7 @@ const CLOUDINARY_CLOUD = 'der0gkexx';
 const CLOUDINARY_PRESET = 'wife-upload';
 
 async function uploadToCloudinary(file) {
-  showToast('⏳ Mengupload foto...');
+  showToast('… Mengupload foto...');
   var formData = new FormData();
   formData.append('file', file);
   formData.append('upload_preset', CLOUDINARY_PRESET);
@@ -2313,11 +2313,11 @@ async function uploadToCloudinary(file) {
     if(data.secure_url) {
       return data.secure_url;
     } else {
-      showToast('❌ Upload gagal: ' + (data.error && data.error.message || 'Unknown error'));
+      showToast('✕ Upload gagal: ' + (data.error && data.error.message || 'Unknown error'));
       return null;
     }
   } catch(e) {
-    showToast('❌ Upload error: ' + e.message);
+    showToast('✕ Upload error: ' + e.message);
     return null;
   }
 }
@@ -2333,8 +2333,8 @@ function handleBannerUpload(input) {
     document.getElementById('heroBannerPlaceholder').style.display = 'none';
     document.getElementById('bannerPreviewImg').src = url;
     document.getElementById('bannerPreviewImg').style.display = 'block';
-    document.getElementById('bannerPreviewIcon').textContent = '✅';
-    showToast('✅ Banner berhasil diupload!');
+    document.getElementById('bannerPreviewIcon').textContent = '✓';
+    showToast('✓ Banner berhasil diupload!');
   });
 }
 
@@ -2347,7 +2347,7 @@ function handleAvatarUpload(input, name) {
     renderCoreTeam();
     renderSquadLeaders();
     renderAdminAvatars();
-    showToast('✅ Foto ' + name + ' berhasil diganti!');
+    showToast('✓ Foto ' + name + ' berhasil diganti!');
   });
 }
 
@@ -2355,7 +2355,7 @@ function handleMediaUpload(input) {
   if(!isAdminLoggedIn()){showToast('⛔ Hanya admin yang bisa upload!'); return;}
   const files = Array.from(input.files);
   const cat = document.getElementById('mediaCategory').value;
-  const emojis = {match:'🎮',event:'🎉',poster:'🎨'};
+  const emojis = {match:'',event:'🎉',poster:'🎨'};
   files.forEach(function(file) {
     uploadToCloudinary(file).then(function(url) {
       if(!url) return;
@@ -2364,7 +2364,7 @@ function handleMediaUpload(input) {
       siteData.mediaImages[idx] = url;
       renderMedia();
       if(typeof renderPartners==='function') renderPartners();
-      showToast('✅ Media berhasil diupload!');
+      showToast('✓ Media berhasil diupload!');
     });
   });
 }
@@ -2372,7 +2372,7 @@ function handleMediaUpload(input) {
 function saveAnnouncement() {
   siteData.announcement = document.getElementById('announcementEditor').value;
   updateAnnouncement();
-  showToast('✅ Pengumuman berhasil disimpan!');
+  showToast('✓ Pengumuman berhasil disimpan!');
 }
 
 function saveStats() {
@@ -2381,7 +2381,7 @@ function saveStats() {
   siteData.stats.tournaments = parseInt(document.getElementById('editStatTournaments').value)||0;
   siteData.stats.wins = parseInt(document.getElementById('editStatWins').value)||0;
   updateStats();
-  showToast('✅ Statistik berhasil diperbarui!');
+  showToast('✓ Statistik berhasil diperbarui!');
 }
 
 // ===================== MGMT EDITOR =====================
@@ -2434,7 +2434,7 @@ function renderMgmtEditor() {
       +'</div>'
       // Hapus + Simpan
       +'<div style="display:flex;flex-direction:column;gap:6px;">'
-      +'<button onclick="saveMgmtRow('+i+',\''+section+'\')" style="padding:6px 14px;border-radius:8px;border:none;background:#9b7db822;color:#9b7db8;cursor:pointer;font-size:0.78rem;font-weight:700;letter-spacing:1px;">💾 SIMPAN</button>'
+      +'<button onclick="saveMgmtRow('+i+',\''+section+'\')" style="padding:6px 14px;border-radius:8px;border:none;background:#9b7db822;color:#9b7db8;cursor:pointer;font-size:0.78rem;font-weight:700;letter-spacing:1px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> SIMPAN</button>'
       +'<button onclick="deleteMgmtRow('+i+',\''+section+'\')" style="padding:6px 14px;border-radius:8px;border:none;background:#f8717122;color:#f87171;cursor:pointer;font-size:0.78rem;font-weight:700;letter-spacing:1px;">🗑️ HAPUS</button>'
       +'</div>'
       +'</div>';
@@ -2456,7 +2456,7 @@ function mgmtUploadPhoto(input, idx, section) {
     renderMgmtEditor();
     renderCoreTeam();
     renderSquadLeaders();
-    showToast('✅ Foto berhasil diupdate!');
+    showToast('✓ Foto berhasil diupdate!');
   });
 }
 
@@ -2474,7 +2474,7 @@ function saveMgmtRow(idx, section) {
       'Kapten Tim Kompetitif':'🎯 Kapten',
       'Talent Scout':'🔍 Scout','Recruiter':'🔍 Recruiter',
       'Treasurer':'💰 Treasurer','Bendahara':'💰 Bendahara',
-      'Admin Event Organizer':'📅 Admin EO','Admin Sosmed':'📱 Admin Sosmed',
+      'Admin Event Organizer':'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Admin EO','Admin Sosmed':'📱 Admin Sosmed',
       'Content Creator':'🎬 Content Creator','Videographer':'🎥 Videographer','Photographer':'📸 Photographer',
       'PR Manager':'📣 PR Manager','Humas':'📣 Humas',
       'Sponsor Manager':'🤝 Sponsor Manager','Partnership Manager':'🤝 Partnership',
@@ -2485,7 +2485,7 @@ function saveMgmtRow(idx, section) {
   renderCoreTeam();
   renderSquadLeaders();
   renderMgmtEditor();
-  showToast('✅ Data '+p.name+' berhasil disimpan!');
+  showToast('✓ Data '+p.name+' berhasil disimpan!');
 }
 
 function deleteMgmtRow(idx, section) {
@@ -2506,7 +2506,7 @@ function addMgmtMember() {
   if(section === 'core') {
     list.push({ name:'Nama Baru', role:'Admin Sosmed', badge:'📱 Admin Sosmed', emoji:'👤' });
   } else {
-    list.push({ name:'Nama Baru', squad:'Squad 1', emoji:'⚔️' });
+    list.push({ name:'Nama Baru', squad:'Squad 1', emoji:'' });
   }
   renderMgmtEditor();
   // Scroll ke bawah container
@@ -2559,7 +2559,7 @@ function toggleMemberStatus(idx) {
     siteData.members[idx].active = !siteData.members[idx].active;
     renderEditMemberTable();
     filterMembers();
-    showToast('✅ Status member diupdate!');
+    showToast('✓ Status member diupdate!');
   }
 }
 
@@ -2576,14 +2576,14 @@ function addMember() {
   var name = document.getElementById('newMemberName').value.trim();
   var squad = document.getElementById('newMemberSquad').value;
   var role = getPickerRoles('newMemberRolePicker');
-  if(!name||!squad) { showToast('⚠️ Nama dan divisi wajib diisi!'); return; }
+  if(!name||!squad) { showToast('⚡ Nama dan divisi wajib diisi!'); return; }
   siteData.members.push({name:name, role:role||'', divisi:squad, squad:squad, active:true});
   renderMembers();
   renderEditMemberTable();
   document.getElementById('newMemberName').value='';
   document.getElementById('newMemberSquad').value='';
   clearPickerRoles('newMemberRolePicker');
-  showToast('✅ Member '+name+' berhasil ditambahkan!');
+  showToast('✓ Member '+name+' berhasil ditambahkan!');
 }
 
 
@@ -2595,7 +2595,7 @@ function renderAdminEventList() {
   if(!all.length) { el.innerHTML = '<div style="color:var(--muted);font-size:0.8rem;">Belum ada event</div>'; return; }
   el.innerHTML = (siteData.events||[]).map(function(e,i) {
     return '<div style="display:flex;align-items:center;gap:8px;padding:8px;background:rgba(184,69,245,0.08);border-radius:8px;margin-bottom:6px;">'
-      +'<div style="flex:1;font-size:0.82rem;color:#fff;">'+(e.emoji||'📅')+' <b>'+e.title+'</b> <span style="color:var(--muted);">'+e.date+'</span></div>'
+      +'<div style="flex:1;font-size:0.82rem;color:#fff;">'+(e.emoji||'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>')+' <b>'+e.title+'</b> <span style="color:var(--muted);">'+e.date+'</span></div>'
       +'<button onclick="editEvent('+i+')" style="background:rgba(184,69,245,0.2);border:1px solid rgba(184,69,245,0.4);color:#d090ff;border-radius:6px;padding:3px 8px;font-size:0.72rem;cursor:pointer;font-family:Rajdhani,sans-serif;font-weight:700;">✏️ EDIT</button>'
       +'<button onclick="deleteEvent(\"'+e.id+'\")" style="background:rgba(248,113,113,0.2);border:1px solid rgba(248,113,113,0.4);color:#f87171;border-radius:6px;padding:3px 8px;font-size:0.72rem;cursor:pointer;font-family:Rajdhani,sans-serif;font-weight:700;">🗑 HAPUS</button>'
       +'</div>';
@@ -2629,7 +2629,7 @@ function editEvent(idx) {
   siteData.events[idx].desc = desc;
   renderEvents();
   renderAdminEventList();
-  showToast('✅ Event berhasil diupdate!');
+  showToast('✓ Event berhasil diupdate!');
 }
 
 function editPartner(idx) {
@@ -2646,7 +2646,7 @@ function editPartner(idx) {
   siteData.partners[idx].tags = tags;
   renderPartners();
   renderAdminPartnerList();
-  showToast('✅ Partner berhasil diupdate!');
+  showToast('✓ Partner berhasil diupdate!');
 }
 
 function addEvent() {
@@ -2655,18 +2655,18 @@ function addEvent() {
   const date = document.getElementById('newEventDate').value;
   const desc = document.getElementById('newEventDesc').value.trim();
   const posterInput = document.getElementById('newEventPoster');
-  if(!title||!date) { showToast('⚠️ Judul dan tanggal wajib diisi!'); return; }
-  const emojis = {'Scrim Internal':'⚔️','Rank Session':'🎮','Mini Tournament':'🏆','Community Gathering':'🎉','Event Musiman':'🌸'};
+  if(!title||!date) { showToast('⚡ Judul dan tanggal wajib diisi!'); return; }
+  const emojis = {'Scrim Internal':'','Rank Session':'','Mini Tournament':'🏆','Community Gathering':'🎉','Event Musiman':'🌸'};
   const id = 'ev_' + Date.now();
 
   const doAdd = (poster) => {
-    siteData.events.push({id, title, type, date, desc:desc||'-', status:'open', emoji:emojis[type]||'📅', poster:poster||null});
+    siteData.events.push({id, title, type, date, desc:desc||'-', status:'open', emoji:emojis[type]||'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>', poster:poster||null});
     renderEvents();
     document.getElementById('newEventTitle').value='';
     document.getElementById('newEventDate').value='';
     document.getElementById('newEventDesc').value='';
     posterInput.value='';
-    showToast('✅ Event "'+title+'" berhasil ditambahkan!');
+    showToast('✓ Event "'+title+'" berhasil ditambahkan!');
   };
 
   if(posterInput.files[0]) {
@@ -2691,7 +2691,7 @@ function saveRules() {
   const text = document.getElementById('rulesGeneralEditor').value;
   siteData.rules.general = text.split('\n').filter(r=>r.trim());
   renderRules();
-  showToast('✅ Rules berhasil disimpan!');
+  showToast('✓ Rules berhasil disimpan!');
 }
 
 // ===================== PARTNERS =====================
@@ -2749,7 +2749,7 @@ function handlePartnerLogo(input, idx) {
     if(!url) return;
     siteData.partners[idx].logo = url;
     renderPartners();
-    showToast('✅ Logo partner berhasil diupdate!');
+    showToast('✓ Logo partner berhasil diupdate!');
   });
 }
 
@@ -2757,7 +2757,7 @@ function deletePartner(idx) {
   if(!confirm('Hapus partner ini?')) return;
   siteData.partners.splice(idx, 1);
   renderPartners();
-  showToast('✅ Partner dihapus!');
+  showToast('✓ Partner dihapus!');
 }
 
 function addPartner() {
@@ -2765,7 +2765,7 @@ function addPartner() {
   var cat = document.getElementById('newPartnerCat').value;
   var desc = document.getElementById('newPartnerDesc').value.trim();
   var tags = document.getElementById('newPartnerTags').value.trim();
-  if(!name) { showToast('⚠️ Nama partner wajib diisi!'); return; }
+  if(!name) { showToast('⚡ Nama partner wajib diisi!'); return; }
   if(!siteData.partners) siteData.partners = [];
   siteData.partners.push({ name:name, category:cat, desc:desc||'-', tags:tags, logo:null });
   renderPartners();
@@ -2773,7 +2773,7 @@ function addPartner() {
   document.getElementById('newPartnerName').value = '';
   document.getElementById('newPartnerDesc').value = '';
   document.getElementById('newPartnerTags').value = '';
-  showToast('✅ Partner '+name+' berhasil ditambahkan!');
+  showToast('✓ Partner '+name+' berhasil ditambahkan!');
 }
 
 function renderAdminLists() {
@@ -2861,7 +2861,7 @@ if(isAdminLoggedIn()) { document.body.classList.add('admin-logged-in'); }
 // Tunggu Firebase siap sebelum load data
 function waitFirebaseAndLoad(retry) {
   retry = retry || 0;
-  if(retry > 20) { showToast('⚠️ Firebase timeout'); return; }
+  if(retry > 20) { showToast('⚡ Firebase timeout'); return; }
   if(typeof firebase !== 'undefined') {
     dbLoad();
   } else {
@@ -2946,26 +2946,26 @@ function flipCrop() {
     </div>
     <div style="display:flex;gap:10px;margin-top:10px;">
       <button onclick="closeCropModal()" style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#9b7db8;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;padding:12px;border-radius:10px;cursor:pointer;">BATAL</button>
-      <button onclick="applyCrop()" style="flex:2;background:linear-gradient(135deg,#b845f5,#e040fb);border:none;color:#fff;font-family:'Orbitron',monospace;font-weight:700;font-size:0.85rem;letter-spacing:1px;padding:12px;border-radius:10px;cursor:pointer;">✅ TERAPKAN</button>
+      <button onclick="applyCrop()" style="flex:2;background:linear-gradient(135deg,#b845f5,#e040fb);border:none;color:#fff;font-family:'Orbitron',monospace;font-weight:700;font-size:0.85rem;letter-spacing:1px;padding:12px;border-radius:10px;cursor:pointer;">✓ TERAPKAN</button>
     </div>
   </div>
 </div>
 
 <div class="bottom-nav" id="bottomNav">
-  <a class="bn-item active" onclick="bnNav('home',this)"><span class="bn-icon">🏠</span><span class="bn-label">HOME</span></a>
-  <a class="bn-item" onclick="bnNav('management',this)"><span class="bn-icon">🏛️</span><span class="bn-label">MGMT</span></a>
-  <a class="bn-item" onclick="bnNav('members',this)"><span class="bn-icon">👥</span><span class="bn-label">MEMBER</span></a>
-  <a class="bn-item" onclick="bnNav('events',this)"><span class="bn-icon">📅</span><span class="bn-label">EVENT</span></a>
-  <a class="bn-item" onclick="toggleBnMore(this)"><span class="bn-icon">⋯</span><span class="bn-label">LAINNYA</span></a>
+  <a class="bn-item active" onclick="bnNav('home',this)"><span class="bn-icon" style="display:flex;align-items:center;justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><span class="bn-label">HOME</span></a>
+  <a class="bn-item" onclick="bnNav('management',this)"><span class="bn-icon" style="display:flex;align-items:center;justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span><span class="bn-label">MGMT</span></a>
+  <a class="bn-item" onclick="bnNav('members',this)"><span class="bn-icon" style="display:flex;align-items:center;justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span class="bn-label">MEMBER</span></a>
+  <a class="bn-item" onclick="bnNav('events',this)"><span class="bn-icon" style="display:flex;align-items:center;justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><span class="bn-label">EVENT</span></a>
+  <a class="bn-item" onclick="toggleBnMore(this)"><span class="bn-icon" style="display:flex;align-items:center;justify-content:center;">⋯</span><span class="bn-label">LAINNYA</span></a>
 </div>
 <div class="bn-more-drawer" id="bnMoreDrawer">
   <div class="bn-more-grid">
-    <a class="bn-more-item" onclick="bnNavMore('about')"><span class="bm-icon">📖</span><span class="bm-label">TENTANG</span></a>
-    <a class="bn-more-item" onclick="bnNavMore('competitive')"><span class="bm-icon">🏆</span><span class="bm-label">COMPETITIVE</span></a>
-    <a class="bn-more-item" onclick="bnNavMore('rules')"><span class="bm-icon">📜</span><span class="bm-label">RULES</span></a>
-    <a class="bn-more-item" onclick="bnNavMore('media')"><span class="bm-icon">🌐</span><span class="bm-label">MEDIA</span></a>
-    <a class="bn-more-item" onclick="bnNavMore('partnership')"><span class="bm-icon">🤝</span><span class="bm-label">PARTNER</span></a>
-    <a class="bn-more-item" onclick="bnNavMore('achievement')"><span class="bm-icon">🏅</span><span class="bm-label">ACHIEVEMENT</span></a>
+    <a class="bn-more-item" onclick="bnNavMore('about')"><span class="bm-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span><span class="bm-label">TENTANG</span></a>
+    <a class="bn-more-item" onclick="bnNavMore('competitive')"><span class="bm-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><span class="bm-label">COMPETITIVE</span></a>
+    <a class="bn-more-item" onclick="bnNavMore('rules')"><span class="bm-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></span><span class="bm-label">RULES</span></a>
+    <a class="bn-more-item" onclick="bnNavMore('media')"><span class="bm-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span><span class="bm-label">MEDIA</span></a>
+    <a class="bn-more-item" onclick="bnNavMore('partnership')"><span class="bm-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span><span class="bm-label">PARTNER</span></a>
+    <a class="bn-more-item" onclick="bnNavMore('achievement')"><span class="bm-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></span><span class="bm-label">ACHIEVEMENT</span></a>
   </div>
 </div>
 <script>
