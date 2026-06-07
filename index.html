@@ -1071,7 +1071,7 @@ footer {
         <option>Squad 1</option><option>Squad 2</option><option>Squad 3</option>
         <option>Squad 4</option><option>Squad 5</option><option>Squad 6</option>
         <option>Squad 7</option><option>Squad 8</option><option>Squad 9</option>
-        <option>Squad 10</option><option>W.I.F.E Alliance</option>
+        <option>Squad 10</option><option>W.I.F.E Alliance</option><option>W.I.F.E Aurora</option>
       </select>
     </div>
     <div style="overflow-x:auto;">
@@ -1415,7 +1415,7 @@ footer {
           <option>Squad 1</option><option>Squad 2</option><option>Squad 3</option>
           <option>Squad 4</option><option>Squad 5</option><option>Squad 6</option>
           <option>Squad 7</option><option>Squad 8</option><option>Squad 9</option>
-          <option>Squad 10</option><option>W.I.F.E Alliance</option>
+          <option>Squad 10</option><option>W.I.F.E Alliance</option><option>W.I.F.E Aurora</option>
         </select>
         <button class="btn-save" onclick="addMember()">➕ TAMBAH</button>
       </div>
@@ -1429,7 +1429,7 @@ footer {
             <option>Squad 1</option><option>Squad 2</option><option>Squad 3</option>
             <option>Squad 4</option><option>Squad 5</option><option>Squad 6</option>
             <option>Squad 7</option><option>Squad 8</option><option>Squad 9</option>
-            <option>Squad 10</option><option>W.I.F.E Alliance</option>
+            <option>Squad 10</option><option>W.I.F.E Alliance</option><option>W.I.F.E Aurora</option>
           </select>
         </div>
         <div style="overflow-x:auto;max-height:360px;overflow-y:auto;">
@@ -1459,6 +1459,64 @@ footer {
         <div style="margin-top:16px;border-top:1px solid rgba(184,69,245,0.2);padding-top:12px;">
           <div style="font-family:Rajdhani,sans-serif;font-size:0.8rem;color:var(--muted);letter-spacing:1px;margin-bottom:8px;">DAFTAR EVENT</div>
           <div id="adminEventList"></div>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <div class="admin-card-title">🏆 TAMBAH TOURNAMENT</div>
+        <input type="text" class="admin-input" id="newTournamentName" placeholder="Nama Tournament">
+        <input type="text" class="admin-input" id="newTournamentDate" placeholder="Tanggal (contoh: Juni 2026)">
+        <select class="admin-input" id="newTournamentResult">
+          <option value="🥇 Juara 1">🥇 Juara 1</option>
+          <option value="🥈 Juara 2">🥈 Juara 2</option>
+          <option value="🥉 Juara 3">🥉 Juara 3</option>
+          <option value="🏅 Partisipan">🏅 Partisipan</option>
+          <option value="⚔️ Gugur">⚔️ Gugur</option>
+        </select>
+        <input type="text" class="admin-input" id="newTournamentDesc" placeholder="Deskripsi singkat (opsional)">
+        <button class="btn-save" onclick="addTournament()" style="margin-top:12px;">➕ TAMBAH TOURNAMENT</button>
+        <div style="margin-top:16px;border-top:1px solid rgba(184,69,245,0.2);padding-top:12px;">
+          <div style="font-family:Rajdhani,sans-serif;font-size:0.8rem;color:var(--muted);letter-spacing:1px;margin-bottom:8px;">DAFTAR TOURNAMENT</div>
+          <div id="adminTournamentList"></div>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <div class="admin-card-title">🏆 TAMBAH TOURNAMENT</div>
+        <input type="text" class="admin-input" id="newTournamentName" placeholder="Nama Tournament">
+        <input type="text" class="admin-input" id="newTournamentDate" placeholder="Tanggal (contoh: 10 Juni 2026)">
+        <select class="admin-input" id="newTournamentResult">
+          <option value="juara1">🥇 Juara 1</option>
+          <option value="juara2">🥈 Juara 2</option>
+          <option value="juara3">🥉 Juara 3</option>
+          <option value="top4">🏅 Top 4</option>
+          <option value="peserta">📋 Peserta</option>
+        </select>
+        <input type="text" class="admin-input" id="newTournamentDesc" placeholder="Keterangan singkat (opsional)">
+        <button class="btn-save" onclick="addTournament()" style="margin-top:12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> TAMBAH TOURNAMENT</button>
+        <div style="margin-top:16px;border-top:1px solid rgba(184,69,245,0.2);padding-top:12px;">
+          <div style="font-family:Rajdhani,sans-serif;font-size:0.8rem;color:var(--muted);letter-spacing:1px;margin-bottom:8px;">DAFTAR TOURNAMENT</div>
+          <div id="adminTournamentList"></div>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <div class="admin-card-title">🎖️ TAMBAH ACHIEVEMENT / HOF</div>
+        <input type="text" class="admin-input" id="newHofName" placeholder="Nama Member">
+        <input type="text" class="admin-input" id="newHofTitle" placeholder="Judul Achievement (contoh: MVP Tournament)">
+        <input type="text" class="admin-input" id="newHofMonth" placeholder="Event/Bulan (contoh: MLBB Spring Cup)">
+        <select class="admin-input" id="newHofTrophy">
+          <option value="🥇">🥇 Juara 1</option>
+          <option value="🥈">🥈 Juara 2</option>
+          <option value="🥉">🥉 Juara 3</option>
+          <option value="⭐">⭐ MVP</option>
+          <option value="🏆">🏆 Champion</option>
+          <option value="🎖️">🎖️ Special Award</option>
+        </select>
+        <button class="btn-save" onclick="addHof()" style="margin-top:12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> TAMBAH ACHIEVEMENT</button>
+        <div style="margin-top:16px;border-top:1px solid rgba(184,69,245,0.2);padding-top:12px;">
+          <div style="font-family:Rajdhani,sans-serif;font-size:0.8rem;color:var(--muted);letter-spacing:1px;margin-bottom:8px;">DAFTAR ACHIEVEMENT</div>
+          <div id="adminHofList"></div>
         </div>
       </div>
 
@@ -1610,6 +1668,7 @@ async function dbLoad() {
       if(d.hof)          siteData.hof           = d.hof;
       if(d.media)        siteData.media         = d.media;
       if(d.leaderboard)  siteData.leaderboard   = d.leaderboard;
+    if(d.tournaments)  siteData.tournaments   = d.tournaments;
     if(d.partners)     siteData.partners      = d.partners;
     }
 
@@ -1653,6 +1712,7 @@ async function dbSave() {
       hof:          siteData.hof,
       media:        siteData.media,
       leaderboard:  siteData.leaderboard,
+      tournaments:  siteData.tournaments,
       partners:     siteData.partners
     };
     await db.collection('wife').doc('siteData').set(payload);
@@ -1871,6 +1931,7 @@ let siteData = {
     { cat:'poster', emoji:'🎨', label:'Anniversary Poster' },
   ],
   mediaImages: {},
+  tournaments: [],
   partners: [
     { name:'Team Brave', category:'official', desc:'Tim esports profesional Mobile Legends Indonesia yang menjadi partner resmi W.I.F.E.', tags:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> COMPETITIVE PARTNER,  SCRIM PARTNER', logo:null }
   ],
@@ -1915,6 +1976,7 @@ function renderAll() {
   renderAdminAvatars();
   renderAdminEventList();
   renderAdminPartnerList();
+  renderAdminTournamentList();
   updateStats();
   updateAnnouncement();
   // Show only home page on load
@@ -2681,10 +2743,12 @@ function addEvent() {
 }
 
 function deleteEvent(id) {
+  if(!confirm('Hapus event ini?')) return;
   siteData.events = siteData.events.filter(e=>e.id!==id);
   siteData.pastEvents = siteData.pastEvents.filter(e=>e.id!==id);
   renderEvents();
-  showToast('🗑 Event berhasil dihapus!');
+  renderAdminEventList();
+  showToast('✓ Event berhasil dihapus!');
 }
 
 function saveRules() {
@@ -2757,6 +2821,7 @@ function deletePartner(idx) {
   if(!confirm('Hapus partner ini?')) return;
   siteData.partners.splice(idx, 1);
   renderPartners();
+  renderAdminPartnerList();
   showToast('✓ Partner dihapus!');
 }
 
@@ -2811,6 +2876,49 @@ function renderAdminLists() {
       }).join('');
     }
   }
+}
+
+
+// ===================== TOURNAMENT =====================
+function renderAdminTournamentList() {
+  var el = document.getElementById('adminTournamentList');
+  if(!el) return;
+  if(!siteData.tournaments || !siteData.tournaments.length) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:0.8rem;">Belum ada tournament</div>';
+    return;
+  }
+  el.innerHTML = siteData.tournaments.map(function(t, i) {
+    return '<div style="display:flex;align-items:center;gap:8px;padding:8px;background:rgba(184,69,245,0.08);border-radius:8px;margin-bottom:6px;">'
+      +'<div style="flex:1;font-size:0.82rem;color:#fff;">🏆 <b>'+t.name+'</b> <span style="color:var(--muted);">'+t.date+'</span> <span style="color:#ffd700;">'+t.result+'</span></div>'
+      +'<button onclick="deleteTournament('+i+')" style="background:rgba(248,113,113,0.2);border:1px solid rgba(248,113,113,0.4);color:#f87171;border-radius:6px;padding:3px 8px;font-size:0.72rem;cursor:pointer;font-family:Rajdhani,sans-serif;font-weight:700;">🗑 HAPUS</button>'
+      +'</div>';
+  }).join('');
+}
+
+function addTournament() {
+  var name = document.getElementById('newTournamentName').value.trim();
+  var date = document.getElementById('newTournamentDate').value.trim();
+  var result = document.getElementById('newTournamentResult').value;
+  var desc = document.getElementById('newTournamentDesc').value.trim();
+  if(!name) { showToast('⚡ Nama tournament wajib diisi!'); return; }
+  if(!siteData.tournaments) siteData.tournaments = [];
+  siteData.tournaments.push({ name:name, date:date||'-', result:result, desc:desc||'' });
+  siteData.stats.tournaments = siteData.tournaments.length;
+  renderAdminTournamentList();
+  updateStats();
+  document.getElementById('newTournamentName').value = '';
+  document.getElementById('newTournamentDate').value = '';
+  document.getElementById('newTournamentDesc').value = '';
+  showToast('✓ Tournament '+name+' berhasil ditambahkan!');
+}
+
+function deleteTournament(idx) {
+  if(!confirm('Hapus tournament ini?')) return;
+  siteData.tournaments.splice(idx, 1);
+  siteData.stats.tournaments = siteData.tournaments.length;
+  renderAdminTournamentList();
+  updateStats();
+  showToast('✓ Tournament berhasil dihapus!');
 }
 
 function showToast(msg) {
