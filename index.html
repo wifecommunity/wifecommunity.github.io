@@ -2260,11 +2260,12 @@ function makeRosterCard(m, isLeader, borderColor, nameColor, roleColor, leaderLa
 function rosterUploadPhoto(input, name, rerenderFn) {
   if(!isAdminLoggedIn()) { showToast('⛔ Hanya admin yang bisa upload!'); return; }
   if(!input.files[0]) return;
-  uploadToCloudinary(input.files[0]).then(function(url) {
+  cropThenUpload(input.files[0], 1, function(url) {
     if(!url) return;
     siteData.avatars[name] = url;
     if(rerenderFn === 'renderCompetitive') renderCompetitive();
     else { renderCoreTeam(); renderSquadLeaders(); }
+    renderAdminAvatars();
     showToast('✓ Foto '+name+' berhasil diupdate!');
   });
 }
@@ -2357,6 +2358,24 @@ function doAdminLogout() {
 
 // ===================== ADMIN ACTIONS =====================
 // ===================== CLOUDINARY UPLOAD =====================
+
+// Crop dulu, baru upload ke Cloudinary
+function cropThenUpload(file, aspect, callback) {
+  var objectUrl = URL.createObjectURL(file);
+  openCropModal(objectUrl, aspect, function(croppedDataUrl) {
+    // Convert base64 to blob then upload
+    fetch(croppedDataUrl)
+      .then(function(r){ return r.blob(); })
+      .then(function(blob) {
+        var croppedFile = new File([blob], file.name, { type: 'image/jpeg' });
+        return uploadToCloudinary(croppedFile);
+      })
+      .then(function(url) { callback(url); })
+      .catch(function(e) { showToast('⚡ Gagal upload: ' + e.message); });
+  });
+}
+
+
 const CLOUDINARY_CLOUD = 'der0gkexx';
 const CLOUDINARY_PRESET = 'wife-upload';
 
@@ -2403,7 +2422,7 @@ function handleBannerUpload(input) {
 function handleAvatarUpload(input, name) {
   if(!isAdminLoggedIn()){showToast('⛔ Hanya admin yang bisa upload!'); return;}
   if(!input.files[0]) return;
-  uploadToCloudinary(input.files[0]).then(function(url) {
+  cropThenUpload(input.files[0], 1, function(url) {
     if(!url) return;
     siteData.avatars[name] = url;
     renderCoreTeam();
@@ -2511,7 +2530,7 @@ function mgmtUpdateField(idx, section, field, val) {
 function mgmtUploadPhoto(input, idx, section) {
   if(!isAdminLoggedIn()){showToast('⛔ Hanya admin!'); return;}
   if(!input.files[0]) return;
-  uploadToCloudinary(input.files[0]).then(function(url) {
+  cropThenUpload(input.files[0], 3/4, function(url) {
     if(!url) return;
     if(section==='core') siteData.coreTeam[idx].photo = url;
     else siteData.squadLeaders[idx].photo = url;
@@ -2816,7 +2835,7 @@ function renderPartners() {
 
 function handlePartnerLogo(input, idx) {
   if(!input.files[0]) return;
-  uploadToCloudinary(input.files[0]).then(function(url) {
+  cropThenUpload(input.files[0], 1, function(url) {
     if(!url) return;
     siteData.partners[idx].logo = url;
     renderPartners();
