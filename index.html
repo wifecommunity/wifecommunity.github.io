@@ -1456,6 +1456,10 @@ footer {
           <div style="font-size:0.8rem;margin-top:4px;">Upload poster portrait</div>
         </div>
         <button class="btn-save" onclick="addEvent()" style="margin-top:12px;">➕ TAMBAH EVENT</button>
+        <div style="margin-top:16px;border-top:1px solid rgba(184,69,245,0.2);padding-top:12px;">
+          <div style="font-family:Rajdhani,sans-serif;font-size:0.8rem;color:var(--muted);letter-spacing:1px;margin-bottom:8px;">DAFTAR EVENT</div>
+          <div id="adminEventList"></div>
+        </div>
       </div>
 
       <div class="admin-card">
@@ -1470,7 +1474,10 @@ footer {
         <textarea class="admin-input" id="newPartnerDesc" placeholder="Deskripsi singkat..." rows="3" style="resize:vertical;"></textarea>
         <input type="text" class="admin-input" id="newPartnerTags" placeholder="Tags (pisah dengan koma, contoh: 🏆 COMPETITIVE, ⚔️ SCRIM)">
         <button class="btn-save" onclick="addPartner()" style="margin-top:12px;">➕ TAMBAH PARTNER</button>
-        <div style="margin-top:8px;font-size:0.75rem;color:var(--muted);">💡 Logo dapat diupload dengan tap foto partner di halaman Partnership</div>
+        <div style="margin-top:16px;border-top:1px solid rgba(184,69,245,0.2);padding-top:12px;">
+          <div style="font-family:Rajdhani,sans-serif;font-size:0.8rem;color:var(--muted);letter-spacing:1px;margin-bottom:8px;">DAFTAR PARTNER</div>
+          <div id="adminPartnerList"></div>
+        </div>
       </div>
 
       <div class="admin-card">
@@ -1906,6 +1913,8 @@ function renderAll() {
   renderMedia();
   if(typeof renderPartners==='function') renderPartners();
   renderAdminAvatars();
+  renderAdminEventList();
+  renderAdminPartnerList();
   updateStats();
   updateAnnouncement();
   // Show only home page on load
@@ -2189,10 +2198,11 @@ function makeRosterCard(m, isLeader, borderColor, nameColor, roleColor, leaderLa
 function rosterUploadPhoto(input, name, rerenderFn) {
   if(!isAdminLoggedIn()) { showToast('⛔ Hanya admin yang bisa upload!'); return; }
   if(!input.files[0]) return;
-  openCropModal(URL.createObjectURL(input.files[0]), 1, function(croppedDataUrl) {
-    siteData.avatars[name] = croppedDataUrl;
+  uploadToCloudinary(input.files[0]).then(function(url) {
+    if(!url) return;
+    siteData.avatars[name] = url;
     if(rerenderFn === 'renderCompetitive') renderCompetitive();
-    else renderCoreTeam(), renderSquadLeaders();
+    else { renderCoreTeam(); renderSquadLeaders(); }
     showToast('✅ Foto '+name+' berhasil diupdate!');
   });
 }
@@ -2284,35 +2294,61 @@ function doAdminLogout() {
 }
 
 // ===================== ADMIN ACTIONS =====================
+// ===================== CLOUDINARY UPLOAD =====================
+const CLOUDINARY_CLOUD = 'der0gkexx';
+const CLOUDINARY_PRESET = 'wife-upload';
+
+async function uploadToCloudinary(file) {
+  showToast('⏳ Mengupload foto...');
+  var formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', CLOUDINARY_PRESET);
+  formData.append('folder', 'wife');
+  try {
+    var res = await fetch('https://api.cloudinary.com/v1_1/' + CLOUDINARY_CLOUD + '/image/upload', {
+      method: 'POST',
+      body: formData
+    });
+    var data = await res.json();
+    if(data.secure_url) {
+      return data.secure_url;
+    } else {
+      showToast('❌ Upload gagal: ' + (data.error && data.error.message || 'Unknown error'));
+      return null;
+    }
+  } catch(e) {
+    showToast('❌ Upload error: ' + e.message);
+    return null;
+  }
+}
+
 function handleBannerUpload(input) {
   if(!isAdminLoggedIn()){showToast('⛔ Hanya admin yang bisa upload!'); return;}
   if(!input.files[0]) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    siteData.banner = e.target.result;
-    document.getElementById('heroBannerImg').src = e.target.result;
+  uploadToCloudinary(input.files[0]).then(function(url) {
+    if(!url) return;
+    siteData.banner = url;
+    document.getElementById('heroBannerImg').src = url;
     document.getElementById('heroBannerImg').style.display = 'block';
     document.getElementById('heroBannerPlaceholder').style.display = 'none';
-    document.getElementById('bannerPreviewImg').src = e.target.result;
+    document.getElementById('bannerPreviewImg').src = url;
     document.getElementById('bannerPreviewImg').style.display = 'block';
     document.getElementById('bannerPreviewIcon').textContent = '✅';
     showToast('✅ Banner berhasil diupload!');
-  };
-  reader.readAsDataURL(input.files[0]);
+  });
 }
 
 function handleAvatarUpload(input, name) {
   if(!isAdminLoggedIn()){showToast('⛔ Hanya admin yang bisa upload!'); return;}
   if(!input.files[0]) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    siteData.avatars[name] = e.target.result;
+  uploadToCloudinary(input.files[0]).then(function(url) {
+    if(!url) return;
+    siteData.avatars[name] = url;
     renderCoreTeam();
     renderSquadLeaders();
     renderAdminAvatars();
-    showToast(`✅ Foto ${name} berhasil diganti!`);
-  };
-  reader.readAsDataURL(input.files[0]);
+    showToast('✅ Foto ' + name + ' berhasil diganti!');
+  });
 }
 
 function handleMediaUpload(input) {
@@ -2320,17 +2356,16 @@ function handleMediaUpload(input) {
   const files = Array.from(input.files);
   const cat = document.getElementById('mediaCategory').value;
   const emojis = {match:'🎮',event:'🎉',poster:'🎨'};
-  files.forEach(file => {
-    const reader = new FileReader();
-    reader.onload = e => {
+  files.forEach(function(file) {
+    uploadToCloudinary(file).then(function(url) {
+      if(!url) return;
       const idx = siteData.media.length;
-      siteData.media.push({cat, emoji:emojis[cat], label:file.name.replace(/\.[^.]+$/,'')});
-      siteData.mediaImages[idx] = e.target.result;
+      siteData.media.push({cat:cat, emoji:emojis[cat], label:file.name.replace(/\.[^.]+$/,'')});
+      siteData.mediaImages[idx] = url;
       renderMedia();
-  if(typeof renderPartners==='function') renderPartners();
+      if(typeof renderPartners==='function') renderPartners();
       showToast('✅ Media berhasil diupload!');
-    };
-    reader.readAsDataURL(file);
+    });
   });
 }
 
@@ -2412,18 +2447,17 @@ function mgmtUpdateField(idx, section, field, val) {
 }
 
 function mgmtUploadPhoto(input, idx, section) {
+  if(!isAdminLoggedIn()){showToast('⛔ Hanya admin!'); return;}
   if(!input.files[0]) return;
-  var list = section === 'core' ? siteData.coreTeam : siteData.squadLeaders;
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    var name = list[idx].name;
-    siteData.avatars[name] = e.target.result;
+  uploadToCloudinary(input.files[0]).then(function(url) {
+    if(!url) return;
+    if(section==='core') siteData.coreTeam[idx].photo = url;
+    else siteData.squadLeaders[idx].photo = url;
     renderMgmtEditor();
     renderCoreTeam();
     renderSquadLeaders();
-    showToast('✅ Foto berhasil diupload!');
-  };
-  reader.readAsDataURL(input.files[0]);
+    showToast('✅ Foto berhasil diupdate!');
+  });
 }
 
 function saveMgmtRow(idx, section) {
@@ -2552,6 +2586,69 @@ function addMember() {
   showToast('✅ Member '+name+' berhasil ditambahkan!');
 }
 
+
+// ===================== ADMIN LIST: EVENT & PARTNER =====================
+function renderAdminEventList() {
+  var el = document.getElementById('adminEventList');
+  if(!el) return;
+  var all = (siteData.events||[]).concat(siteData.pastEvents||[]);
+  if(!all.length) { el.innerHTML = '<div style="color:var(--muted);font-size:0.8rem;">Belum ada event</div>'; return; }
+  el.innerHTML = (siteData.events||[]).map(function(e,i) {
+    return '<div style="display:flex;align-items:center;gap:8px;padding:8px;background:rgba(184,69,245,0.08);border-radius:8px;margin-bottom:6px;">'
+      +'<div style="flex:1;font-size:0.82rem;color:#fff;">'+(e.emoji||'📅')+' <b>'+e.title+'</b> <span style="color:var(--muted);">'+e.date+'</span></div>'
+      +'<button onclick="editEvent('+i+')" style="background:rgba(184,69,245,0.2);border:1px solid rgba(184,69,245,0.4);color:#d090ff;border-radius:6px;padding:3px 8px;font-size:0.72rem;cursor:pointer;font-family:Rajdhani,sans-serif;font-weight:700;">✏️ EDIT</button>'
+      +'<button onclick="deleteEvent(\"'+e.id+'\")" style="background:rgba(248,113,113,0.2);border:1px solid rgba(248,113,113,0.4);color:#f87171;border-radius:6px;padding:3px 8px;font-size:0.72rem;cursor:pointer;font-family:Rajdhani,sans-serif;font-weight:700;">🗑 HAPUS</button>'
+      +'</div>';
+  }).join('');
+}
+
+function renderAdminPartnerList() {
+  var el = document.getElementById('adminPartnerList');
+  if(!el) return;
+  if(!siteData.partners || !siteData.partners.length) { el.innerHTML = '<div style="color:var(--muted);font-size:0.8rem;">Belum ada partner</div>'; return; }
+  el.innerHTML = siteData.partners.map(function(p,i) {
+    return '<div style="display:flex;align-items:center;gap:8px;padding:8px;background:rgba(184,69,245,0.08);border-radius:8px;margin-bottom:6px;">'
+      +'<div style="flex:1;font-size:0.82rem;color:#fff;">🤝 <b>'+p.name+'</b> <span style="color:var(--muted);">('+p.category+')</span></div>'
+      +'<button onclick="editPartner('+i+')" style="background:rgba(184,69,245,0.2);border:1px solid rgba(184,69,245,0.4);color:#d090ff;border-radius:6px;padding:3px 8px;font-size:0.72rem;cursor:pointer;font-family:Rajdhani,sans-serif;font-weight:700;">✏️ EDIT</button>'
+      +'<button onclick="deletePartner('+i+')" style="background:rgba(248,113,113,0.2);border:1px solid rgba(248,113,113,0.4);color:#f87171;border-radius:6px;padding:3px 8px;font-size:0.72rem;cursor:pointer;font-family:Rajdhani,sans-serif;font-weight:700;">🗑 HAPUS</button>'
+      +'</div>';
+  }).join('');
+}
+
+function editEvent(idx) {
+  var e = siteData.events[idx];
+  if(!e) return;
+  var title = prompt('Judul Event:', e.title);
+  if(title===null) return;
+  var date = prompt('Tanggal (YYYY-MM-DD):', e.date);
+  if(date===null) return;
+  var desc = prompt('Deskripsi:', e.desc);
+  if(desc===null) return;
+  siteData.events[idx].title = title;
+  siteData.events[idx].date = date;
+  siteData.events[idx].desc = desc;
+  renderEvents();
+  renderAdminEventList();
+  showToast('✅ Event berhasil diupdate!');
+}
+
+function editPartner(idx) {
+  var p = siteData.partners[idx];
+  if(!p) return;
+  var name = prompt('Nama Partner:', p.name);
+  if(name===null) return;
+  var desc = prompt('Deskripsi:', p.desc);
+  if(desc===null) return;
+  var tags = prompt('Tags (pisah koma):', p.tags);
+  if(tags===null) return;
+  siteData.partners[idx].name = name;
+  siteData.partners[idx].desc = desc;
+  siteData.partners[idx].tags = tags;
+  renderPartners();
+  renderAdminPartnerList();
+  showToast('✅ Partner berhasil diupdate!');
+}
+
 function addEvent() {
   const title = document.getElementById('newEventTitle').value.trim();
   const type = document.getElementById('newEventType').value;
@@ -2575,7 +2672,7 @@ function addEvent() {
   if(posterInput.files[0]) {
     const reader = new FileReader();
     reader.onload = e => {
-      openCropModal(e.target.result, 3/4, function(cropped){ doAdd(cropped); });
+      uploadToCloudinary(posterInput.files[0]).then(function(url){ doAdd(url||null); });
     };
     reader.readAsDataURL(posterInput.files[0]);
   } else {
@@ -2648,13 +2745,12 @@ function renderPartners() {
 
 function handlePartnerLogo(input, idx) {
   if(!input.files[0]) return;
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    siteData.partners[idx].logo = e.target.result;
+  uploadToCloudinary(input.files[0]).then(function(url) {
+    if(!url) return;
+    siteData.partners[idx].logo = url;
     renderPartners();
     showToast('✅ Logo partner berhasil diupdate!');
-  };
-  reader.readAsDataURL(input.files[0]);
+  });
 }
 
 function deletePartner(idx) {
@@ -2673,10 +2769,48 @@ function addPartner() {
   if(!siteData.partners) siteData.partners = [];
   siteData.partners.push({ name:name, category:cat, desc:desc||'-', tags:tags, logo:null });
   renderPartners();
+  renderAdminLists();
   document.getElementById('newPartnerName').value = '';
   document.getElementById('newPartnerDesc').value = '';
   document.getElementById('newPartnerTags').value = '';
   showToast('✅ Partner '+name+' berhasil ditambahkan!');
+}
+
+function renderAdminLists() {
+  // Event list
+  var evEl = document.getElementById('adminEventList');
+  if(evEl) {
+    if(!siteData.events || !siteData.events.length) {
+      evEl.innerHTML = '<div style="color:var(--muted);font-size:0.8rem;">Belum ada event</div>';
+    } else {
+      evEl.innerHTML = siteData.events.map(function(e,i) {
+        return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:rgba(184,69,245,0.08);border-radius:8px;margin-bottom:6px;">'
+          +'<div style="font-family:Rajdhani,sans-serif;font-size:0.85rem;color:#fff;flex:1;">'
+          +'<div style="font-weight:700;">'+e.title+'</div>'
+          +'<div style="color:var(--muted);font-size:0.75rem;">'+e.date+' · '+e.type+'</div>'
+          +'</div>'
+          +'<button onclick="deleteEvent(\''+e.id+'\')" style="background:rgba(248,113,113,0.2);border:1px solid rgba(248,113,113,0.4);color:#f87171;border-radius:8px;padding:4px 10px;font-size:0.75rem;cursor:pointer;font-family:Rajdhani,sans-serif;font-weight:700;margin-left:8px;">🗑</button>'
+          +'</div>';
+      }).join('');
+    }
+  }
+  // Partner list
+  var ptEl = document.getElementById('adminPartnerList');
+  if(ptEl) {
+    if(!siteData.partners || !siteData.partners.length) {
+      ptEl.innerHTML = '<div style="color:var(--muted);font-size:0.8rem;">Belum ada partner</div>';
+    } else {
+      ptEl.innerHTML = siteData.partners.map(function(p,i) {
+        return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px;background:rgba(184,69,245,0.08);border-radius:8px;margin-bottom:6px;">'
+          +'<div style="font-family:Rajdhani,sans-serif;font-size:0.85rem;color:#fff;flex:1;">'
+          +'<div style="font-weight:700;">'+p.name+'</div>'
+          +'<div style="color:var(--muted);font-size:0.75rem;">'+(p.category||'official')+'</div>'
+          +'</div>'
+          +'<button onclick="deletePartner('+i+')" style="background:rgba(248,113,113,0.2);border:1px solid rgba(248,113,113,0.4);color:#f87171;border-radius:8px;padding:4px 10px;font-size:0.75rem;cursor:pointer;font-family:Rajdhani,sans-serif;font-weight:700;margin-left:8px;">🗑</button>'
+          +'</div>';
+      }).join('');
+    }
+  }
 }
 
 function showToast(msg) {
