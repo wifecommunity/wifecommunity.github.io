@@ -2653,13 +2653,12 @@ function addMember() {
 function renderAdminEventList() {
   var el = document.getElementById('adminEventList');
   if(!el) return;
-  var all = (siteData.events||[]).concat(siteData.pastEvents||[]);
-  if(!all.length) { el.innerHTML = '<div style="color:var(--muted);font-size:0.8rem;">Belum ada event</div>'; return; }
-  el.innerHTML = (siteData.events||[]).map(function(e,i) {
+  if(!siteData.events || !siteData.events.length) { el.innerHTML = '<div style="color:var(--muted);font-size:0.8rem;">Belum ada event</div>'; return; }
+  el.innerHTML = siteData.events.map(function(e,i) {
     return '<div style="display:flex;align-items:center;gap:8px;padding:8px;background:rgba(184,69,245,0.08);border-radius:8px;margin-bottom:6px;">'
-      +'<div style="flex:1;font-size:0.82rem;color:#fff;">'+(e.emoji||'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>')+' <b>'+e.title+'</b> <span style="color:var(--muted);">'+e.date+'</span></div>'
+      +'<div style="flex:1;font-size:0.82rem;color:#fff;"> <b>'+e.title+'</b> <span style="color:var(--muted);">'+e.date+'</span></div>'
       +'<button onclick="editEvent('+i+')" style="background:rgba(184,69,245,0.2);border:1px solid rgba(184,69,245,0.4);color:#d090ff;border-radius:6px;padding:3px 8px;font-size:0.72rem;cursor:pointer;font-family:Rajdhani,sans-serif;font-weight:700;">✏️ EDIT</button>'
-      +'<button onclick="deleteEvent(\"'+e.id+'\")" style="background:rgba(248,113,113,0.2);border:1px solid rgba(248,113,113,0.4);color:#f87171;border-radius:6px;padding:3px 8px;font-size:0.72rem;cursor:pointer;font-family:Rajdhani,sans-serif;font-weight:700;">🗑 HAPUS</button>'
+      +'<button onclick="deleteEventByIndex('+i+')" style="background:rgba(248,113,113,0.2);border:1px solid rgba(248,113,113,0.4);color:#f87171;border-radius:6px;padding:3px 8px;font-size:0.72rem;cursor:pointer;font-family:Rajdhani,sans-serif;font-weight:700;">🗑 HAPUS</button>'
       +'</div>';
   }).join('');
 }
@@ -2746,6 +2745,14 @@ function deleteEvent(id) {
   if(!confirm('Hapus event ini?')) return;
   siteData.events = siteData.events.filter(e=>e.id!==id);
   siteData.pastEvents = siteData.pastEvents.filter(e=>e.id!==id);
+  renderEvents();
+  renderAdminEventList();
+  showToast('✓ Event berhasil dihapus!');
+}
+
+function deleteEventByIndex(idx) {
+  if(!confirm('Hapus event ini?')) return;
+  siteData.events.splice(idx, 1);
   renderEvents();
   renderAdminEventList();
   showToast('✓ Event berhasil dihapus!');
