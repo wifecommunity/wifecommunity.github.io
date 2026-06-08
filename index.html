@@ -484,19 +484,21 @@ body:not(.admin-logged-in) .roster-avatar-wrap input[type=file]{display:none !im
 }
 
 /* MEDIA GRID */
-.media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;}
+.media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;}
 .media-item{
   border-radius:12px;overflow:hidden;
   background:linear-gradient(135deg,var(--dark-purple),var(--mid-purple));
   border:1px solid var(--border);
-  aspect-ratio:16/9;
   display:flex;align-items:center;justify-content:center;
   font-size:2rem;cursor:pointer;
   transition:all 0.3s;
   position:relative;
+  min-height:120px;
 }
 .media-item:hover{border-color:var(--neon-purple);transform:scale(1.03);box-shadow:var(--glow);}
-.media-item img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+.media-item img{width:100%;height:auto;display:block;object-fit:contain;}
+.media-delete-btn{position:absolute;top:6px;right:6px;background:rgba(248,113,113,0.85);border:none;color:#fff;border-radius:6px;padding:3px 8px;font-size:0.72rem;cursor:pointer;font-family:Rajdhani,sans-serif;font-weight:700;z-index:5;display:none;}
+.media-item:hover .media-delete-btn{display:block;}
 
 /* SOCIALS */
 .social-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;}
@@ -2272,16 +2274,36 @@ function rosterUploadPhoto(input, name, rerenderFn) {
 
 function renderMedia() {
   const allItems = [...siteData.media];
-  const makeItem = (m,i) => {
+  const makeItem = (m, i) => {
     const imgSrc = siteData.mediaImages[i];
-    return `<div class="media-item" title="${m.label}">
-      ${imgSrc ? `<img src="${imgSrc}" alt="${m.label}">` : `<span style="font-size:2.5rem">${m.emoji}</span>`}
-    </div>`;
+    const delBtn = isAdminLoggedIn()
+      ? `<button class="media-delete-btn" onclick="deleteMedia(${i})">✕ HAPUS</button>`
+      : '';
+    if(imgSrc) {
+      return `<div class="media-item" title="${m.label}" style="padding:0;">${delBtn}<img src="${imgSrc}" alt="${m.label}" style="width:100%;height:auto;display:block;border-radius:12px;"></div>`;
+    }
+    return `<div class="media-item" title="${m.label}" style="min-height:140px;">${delBtn}<span style="font-size:2.5rem">${m.emoji||'🖼️'}</span></div>`;
   };
-  document.getElementById('mediaGrid').innerHTML = allItems.map((m,i)=>makeItem(m,i)).join('');
-  document.getElementById('mediaMatch').innerHTML = allItems.filter(m=>m.cat==='match').map((m,i)=>makeItem(m,i)).join('');
-  document.getElementById('mediaEvent').innerHTML = allItems.filter(m=>m.cat==='event').map((m,i)=>makeItem(m,i)).join('');
-  document.getElementById('mediaPoster').innerHTML = allItems.filter(m=>m.cat==='poster').map((m,i)=>makeItem(m,i)).join('');
+  document.getElementById('mediaGrid').innerHTML = allItems.length ? allItems.map((m,i)=>makeItem(m,i)).join('') : '<div style="color:var(--muted);text-align:center;padding:40px;grid-column:1/-1;">Belum ada media</div>';
+  document.getElementById('mediaMatch').innerHTML = allItems.filter(m=>m.cat==='match').map((m,i)=>makeItem(m,allItems.indexOf(m))).join('');
+  document.getElementById('mediaEvent').innerHTML = allItems.filter(m=>m.cat==='event').map((m,i)=>makeItem(m,allItems.indexOf(m))).join('');
+  document.getElementById('mediaPoster').innerHTML = allItems.filter(m=>m.cat==='poster').map((m,i)=>makeItem(m,allItems.indexOf(m))).join('');
+}
+
+function deleteMedia(idx) {
+  if(!isAdminLoggedIn()) return;
+  if(!confirm('Hapus foto ini?')) return;
+  siteData.media.splice(idx, 1);
+  // Rebuild mediaImages dengan index baru
+  var newImages = {};
+  Object.keys(siteData.mediaImages).forEach(function(k) {
+    var ki = parseInt(k);
+    if(ki < idx) newImages[ki] = siteData.mediaImages[ki];
+    else if(ki > idx) newImages[ki-1] = siteData.mediaImages[ki];
+  });
+  siteData.mediaImages = newImages;
+  renderMedia();
+  showToast('✓ Foto berhasil dihapus!');
 }
 
 function renderAdminAvatars() {
@@ -2437,15 +2459,16 @@ function handleMediaUpload(input) {
   const files = Array.from(input.files);
   const cat = document.getElementById('mediaCategory').value;
   const emojis = {match:'',event:'🎉',poster:'🎨'};
+  var uploaded = 0;
   files.forEach(function(file) {
     uploadToCloudinary(file).then(function(url) {
       if(!url) return;
       const idx = siteData.media.length;
       siteData.media.push({cat:cat, emoji:emojis[cat], label:file.name.replace(/\.[^.]+$/,'')});
       siteData.mediaImages[idx] = url;
+      uploaded++;
       renderMedia();
-      if(typeof renderPartners==='function') renderPartners();
-      showToast('✓ Media berhasil diupload!');
+      showToast('✓ ' + uploaded + ' foto berhasil diupload!');
     });
   });
 }
