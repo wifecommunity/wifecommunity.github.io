@@ -2333,7 +2333,7 @@ footer {
         </div>
         <div style="overflow-x:auto;max-height:360px;overflow-y:auto;">
           <table class="lb-table" style="font-size:0.82rem;">
-            <thead><tr><th>#</th><th>FOTO</th><th>NICKNAME</th><th>ROLE</th><th>DIVISI</th><th>STATUS</th><th>AKSI</th></tr></thead>
+            <thead><tr><th>#</th><th>FOTO</th><th>NICKNAME</th><th>ROLE</th><th>DIVISI</th><th>STATUS</th><th style="min-width:44px;">URUTAN</th><th>AKSI</th></tr></thead>
             <tbody id="editMemberTableBody"></tbody>
           </table>
         </div>
@@ -3968,39 +3968,64 @@ function addMgmtMember() {
   showToast('➕ Anggota baru ditambahkan, isi data lalu simpan!');
 }
 
+function moveMember(realIdx, dir) {
+  var arr = siteData.members;
+  var target = realIdx + dir;
+  if(target < 0 || target >= arr.length) return;
+  var tmp = arr[realIdx]; arr[realIdx] = arr[target]; arr[target] = tmp;
+  renderEditMemberTable();
+  filterMembers(false);
+}
+
 function renderEditMemberTable() {
   var q = (document.getElementById('editMemberSearch').value||'').toLowerCase();
   var sq = document.getElementById('editMemberSquadFilter').value;
   var MLBB_ROLES = ['Roamer','Jungler','Gold Lane','Mid Lane','EXP Lane','Flex'];
-  var rows = siteData.members.map(function(m,i){
-    if(q && !m.name.toLowerCase().includes(q)) return '';
-    if(sq && m.divisi !== sq) return '';
+  var isFiltered = !!(q || sq);
+  var rows = '';
+  var totalLen = siteData.members.length;
+  siteData.members.forEach(function(m, realIdx) {
+    if(q && !m.name.toLowerCase().includes(q)) return;
+    if(sq && m.divisi !== sq) return;
     var selectedRoles = m.role ? m.role.split(', ').map(function(r){return r.trim();}) : [];
     var roleChips = MLBB_ROLES.map(function(r){
       var sel = selectedRoles.includes(r) ? ' selected' : '';
-      return '<span class="role-chip'+sel+'" data-role="'+r+'" onclick="toggleRoleChipEdit(this,'+i+')" style="font-size:0.65rem;padding:3px 7px;">'+roleIconTag(r,13)+' '+r+'</span>';
+      return '<span class="role-chip'+sel+'" data-role="'+r+'" onclick="toggleRoleChipEdit(this,'+realIdx+')" style="font-size:0.65rem;padding:3px 7px;">'+roleIconTag(r,13)+' '+r+'</span>';
     }).join('');
     var rolePicker = '<div class="role-picker" style="gap:4px;padding:6px;min-width:290px;">'+roleChips+'</div>';
     var squadOpts = ['Divisi 1','Divisi 2','Divisi 3','Divisi 4','Divisi 5','Divisi 6','Divisi 7','Divisi 8','Divisi 9','Divisi 10','W.I.F.E Alliance'].map(function(s){
       return '<option value="'+s+'"'+(m.divisi===s?' selected':'')+'>'+s+'</option>';
     }).join('');
     var statusBtn = m.active
-      ? '<button onclick="toggleMemberStatus('+i+')" style="font-size:0.7rem;padding:2px 8px;border-radius:10px;border:none;background:#4ade8022;color:#4ade80;cursor:pointer;">AKTIF</button>'
-      : '<button onclick="toggleMemberStatus('+i+')" style="font-size:0.7rem;padding:2px 8px;border-radius:10px;border:none;background:#f8717122;color:#f87171;cursor:pointer;">NON-AKTIF</button>';
-    return '<tr>'
-      +'<td style="color:var(--muted);">'+(i+1)+'</td>'
+      ? '<button onclick="toggleMemberStatus('+realIdx+')" style="font-size:0.7rem;padding:2px 8px;border-radius:10px;border:none;background:#4ade8022;color:#4ade80;cursor:pointer;">AKTIF</button>'
+      : '<button onclick="toggleMemberStatus('+realIdx+')" style="font-size:0.7rem;padding:2px 8px;border-radius:10px;border:none;background:#f8717122;color:#f87171;cursor:pointer;">NON-AKTIF</button>';
+    var btnStyle = 'width:22px;height:22px;border-radius:5px;border:1px solid rgba(184,69,245,0.4);background:rgba(184,69,245,0.12);color:#d090ff;cursor:pointer;font-size:0.8rem;line-height:1;padding:0;';
+    var btnDisStyle = 'width:22px;height:22px;border-radius:5px;border:1px solid rgba(184,69,245,0.15);background:rgba(184,69,245,0.04);color:#4a2060;cursor:default;font-size:0.8rem;line-height:1;padding:0;';
+    var moveCell = isFiltered
+      ? '<td style="color:var(--muted);font-size:0.65rem;text-align:center;opacity:0.4;" title="Nonaktifkan filter untuk reorder">⇅</td>'
+      : '<td style="text-align:center;"><div style="display:flex;flex-direction:column;gap:2px;align-items:center;">'
+          +(realIdx===0
+            ? '<button disabled style="'+btnDisStyle+'">▲</button>'
+            : '<button onclick="moveMember('+realIdx+',-1)" title="Naik" style="'+btnStyle+'">▲</button>')
+          +(realIdx===totalLen-1
+            ? '<button disabled style="'+btnDisStyle+'">▼</button>'
+            : '<button onclick="moveMember('+realIdx+',1)" title="Turun" style="'+btnStyle+'">▼</button>')
+        +'</div></td>';
+    rows += '<tr>'
+      +'<td style="color:var(--muted);">'+(realIdx+1)+'</td>'
       +'<td><label style="cursor:pointer;display:block;width:34px;height:34px;" title="Ganti foto">'
         +'<img src="'+(m.photo||defaultAvatarDataUri(m.name))+'" style="width:34px;height:34px;border-radius:50%;object-fit:cover;border:1px solid var(--border);display:block;" onerror="this.onerror=null;this.src=\''+defaultAvatarDataUri(m.name)+'\';">'
-        +'<input type="file" accept="image/*" style="display:none;" onchange="memberUploadPhoto(this,'+i+')">'
+        +'<input type="file" accept="image/*" style="display:none;" onchange="memberUploadPhoto(this,'+realIdx+')">'
       +'</label></td>'
-      +'<td><input type="text" value="'+m.name.replace(/"/g,'&quot;')+'" onchange="updateMemberField('+i+",\'name\',this.value)"+'" style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--text);font-size:0.82rem;width:120px;"></td>'
+      +'<td><input type="text" value="'+m.name.replace(/"/g,'&quot;')+'" onchange="updateMemberField('+realIdx+',\'name\',this.value)" style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--text);font-size:0.82rem;width:120px;"></td>'
       +'<td>'+rolePicker+'</td>'
-      +'<td><select onchange="updateMemberField('+i+",\'divisi\',this.value)"+'" style="background:var(--card-bg);border:1px solid var(--border);color:var(--text);font-size:0.78rem;border-radius:6px;padding:2px 4px;">'+squadOpts+'</select></td>'
+      +'<td><select onchange="updateMemberField('+realIdx+',\'divisi\',this.value)" style="background:var(--card-bg);border:1px solid var(--border);color:var(--text);font-size:0.78rem;border-radius:6px;padding:2px 4px;">'+squadOpts+'</select></td>'
       +'<td>'+statusBtn+'</td>'
-      +'<td><button onclick="deleteMember('+i+')" style="font-size:0.7rem;padding:2px 8px;border-radius:10px;border:none;background:#f8717122;color:#f87171;cursor:pointer;">HAPUS</button></td>'
+      +moveCell
+      +'<td><button onclick="deleteMember('+realIdx+')" style="font-size:0.7rem;padding:2px 8px;border-radius:10px;border:none;background:#f8717122;color:#f87171;cursor:pointer;">HAPUS</button></td>'
       +'</tr>';
-  }).join('');
-  document.getElementById('editMemberTableBody').innerHTML = rows || '<tr><td colspan="7" style="text-align:center;color:var(--muted);">Tidak ada data</td></tr>';
+  });
+  document.getElementById('editMemberTableBody').innerHTML = rows || '<tr><td colspan="8" style="text-align:center;color:var(--muted);">Tidak ada data</td></tr>';
 }
 
 function memberUploadPhoto(input, idx) {
