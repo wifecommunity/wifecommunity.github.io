@@ -20,7 +20,7 @@
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700;900&family=Exo+2:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700;900&family=Exo+2:ital,wght@0,300;0,400;0,600;1,400&family=Noto+Sans:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --neon-purple: #b845f5;
@@ -480,7 +480,7 @@ body:not(.admin-logged-in) .roster-avatar-wrap input[type=file] { display: none 
 
 /* (duplicate blocks removed) */
 .mgmt-name {
-  font-family: 'Rajdhani', sans-serif;
+  font-family: 'Rajdhani', 'Inter', 'Noto Sans', sans-serif;
   font-weight: 700;
   font-size: 1rem;
   color: #fff;
@@ -536,7 +536,7 @@ body:not(.admin-logged-in) .roster-avatar-wrap input[type=file] { display: none 
 .lb-rank.gold{color:#ffd700;}
 .lb-rank.silver{color:#c0c0c0;}
 .lb-rank.bronze{color:#cd7f32;}
-.lb-name{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.95rem;color:#fff;}
+.lb-name{font-family:'Rajdhani','Inter','Noto Sans',sans-serif;font-weight:600;font-size:0.95rem;color:#fff;}
 .lb-divisi{font-size:0.75rem;color:var(--muted);}
 .lb-value{font-family:'Orbitron',monospace;font-size:0.85rem;color:var(--neon-purple);font-weight:700;}
 .lb-bar-wrap{width:120px;height:6px;background:rgba(255,255,255,0.1);border-radius:3px;margin-top:4px;}
@@ -780,9 +780,9 @@ body:not(.admin-logged-in) .roster-avatar-wrap input[type=file] { display: none 
   color:var(--neon-pink); text-shadow:0 0 8px rgba(224,64,251,0.8);
 }
 .mc-member-name{
-  font-family:'Orbitron','Rajdhani',sans-serif; font-weight:700; font-size:0.98rem; color:#fff;
+  font-family:'Rajdhani','Inter','Noto Sans',sans-serif; font-weight:700; font-size:0.98rem; color:#fff;
   letter-spacing:1px; line-height:1.35; word-break:break-word; min-width:0;
-  text-transform:uppercase;
+  text-transform:none;
   background:linear-gradient(120deg, #ffffff 0%, #f0d9ff 35%, var(--neon-purple) 70%, var(--neon-pink) 100%);
   -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
   filter:drop-shadow(0 0 6px rgba(184,69,245,0.35));
@@ -1010,7 +1010,7 @@ body:not(.admin-logged-in) .roster-avatar-wrap input[type=file] { display: none 
 }
 .social-card:hover{border-color:var(--neon-purple);transform:translateY(-4px);box-shadow:var(--glow);}
 .social-icon{font-size:2.5rem;}
-.social-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;letter-spacing:1px;color:#fff;}
+.social-name{font-family:'Rajdhani','Inter','Noto Sans',sans-serif;font-weight:700;font-size:1rem;letter-spacing:1px;color:#fff;}
 .social-handle{font-size:0.8rem;color:var(--muted);}
 
 /* ===== ADMIN MODAL ===== */
@@ -1593,7 +1593,7 @@ footer {
   border: 1px solid currentColor;
 }
 .comp-player-name {
-  font-family: 'Rajdhani', sans-serif; font-weight: 700;
+  font-family: 'Rajdhani', 'Inter', 'Noto Sans', sans-serif; font-weight: 700;
   font-size: 1.0rem; color: #fff; line-height: 1.2;
   margin-bottom: 5px;
   text-shadow: 0 1px 6px rgba(0,0,0,0.8);
