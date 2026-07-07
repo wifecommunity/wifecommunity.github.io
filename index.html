@@ -3969,10 +3969,18 @@ function addMgmtMember() {
 }
 
 function moveMember(realIdx, dir) {
+  // Swap hanya dalam divisi yang sama
   var arr = siteData.members;
-  var target = realIdx + dir;
-  if(target < 0 || target >= arr.length) return;
-  var tmp = arr[realIdx]; arr[realIdx] = arr[target]; arr[target] = tmp;
+  var divisi = arr[realIdx].divisi;
+  // Kumpulkan index-index member divisi yang sama, urut
+  var sameDiv = [];
+  arr.forEach(function(m, idx){ if(m.divisi === divisi) sameDiv.push(idx); });
+  var posInDiv = sameDiv.indexOf(realIdx);
+  var targetPos = posInDiv + dir;
+  if(targetPos < 0 || targetPos >= sameDiv.length) return;
+  var targetRealIdx = sameDiv[targetPos];
+  // Swap di array utama
+  var tmp = arr[realIdx]; arr[realIdx] = arr[targetRealIdx]; arr[targetRealIdx] = tmp;
   renderEditMemberTable();
   filterMembers(false);
 }
@@ -3981,9 +3989,17 @@ function renderEditMemberTable() {
   var q = (document.getElementById('editMemberSearch').value||'').toLowerCase();
   var sq = document.getElementById('editMemberSquadFilter').value;
   var MLBB_ROLES = ['Roamer','Jungler','Gold Lane','Mid Lane','EXP Lane','Flex'];
-  var isFiltered = !!(q || sq);
+  // Reorder HANYA aktif saat filter divisi dipilih (bukan "Semua") dan tidak ada search text
+  var canReorder = !!(sq && !q);
   var rows = '';
-  var totalLen = siteData.members.length;
+
+  // Untuk keperluan cek posisi pertama/terakhir dalam divisi
+  var divisiIndices = {};
+  siteData.members.forEach(function(m, idx) {
+    if(!divisiIndices[m.divisi]) divisiIndices[m.divisi] = [];
+    divisiIndices[m.divisi].push(idx);
+  });
+
   siteData.members.forEach(function(m, realIdx) {
     if(q && !m.name.toLowerCase().includes(q)) return;
     if(sq && m.divisi !== sq) return;
@@ -4001,16 +4017,26 @@ function renderEditMemberTable() {
       : '<button onclick="toggleMemberStatus('+realIdx+')" style="font-size:0.7rem;padding:2px 8px;border-radius:10px;border:none;background:#f8717122;color:#f87171;cursor:pointer;">NON-AKTIF</button>';
     var btnStyle = 'width:22px;height:22px;border-radius:5px;border:1px solid rgba(184,69,245,0.4);background:rgba(184,69,245,0.12);color:#d090ff;cursor:pointer;font-size:0.8rem;line-height:1;padding:0;';
     var btnDisStyle = 'width:22px;height:22px;border-radius:5px;border:1px solid rgba(184,69,245,0.15);background:rgba(184,69,245,0.04);color:#4a2060;cursor:default;font-size:0.8rem;line-height:1;padding:0;';
-    var moveCell = isFiltered
-      ? '<td style="color:var(--muted);font-size:0.65rem;text-align:center;opacity:0.4;" title="Nonaktifkan filter untuk reorder">⇅</td>'
-      : '<td style="text-align:center;"><div style="display:flex;flex-direction:column;gap:2px;align-items:center;">'
-          +(realIdx===0
-            ? '<button disabled style="'+btnDisStyle+'">▲</button>'
-            : '<button onclick="moveMember('+realIdx+',-1)" title="Naik" style="'+btnStyle+'">▲</button>')
-          +(realIdx===totalLen-1
-            ? '<button disabled style="'+btnDisStyle+'">▼</button>'
-            : '<button onclick="moveMember('+realIdx+',1)" title="Turun" style="'+btnStyle+'">▼</button>')
-        +'</div></td>';
+
+    var moveCell;
+    if(!canReorder) {
+      // Semua Divisi atau ada search — tampilkan hint
+      moveCell = '<td style="color:var(--muted);font-size:0.62rem;text-align:center;opacity:0.35;" title="Pilih satu divisi untuk mengatur urutan">⇅</td>';
+    } else {
+      var divIdxList = divisiIndices[m.divisi] || [];
+      var posInDiv = divIdxList.indexOf(realIdx);
+      var isFirst = posInDiv === 0;
+      var isLast  = posInDiv === divIdxList.length - 1;
+      moveCell = '<td style="text-align:center;"><div style="display:flex;flex-direction:column;gap:2px;align-items:center;">'
+        +(isFirst
+          ? '<button disabled style="'+btnDisStyle+'">▲</button>'
+          : '<button onclick="moveMember('+realIdx+',-1)" title="Naik" style="'+btnStyle+'">▲</button>')
+        +(isLast
+          ? '<button disabled style="'+btnDisStyle+'">▼</button>'
+          : '<button onclick="moveMember('+realIdx+',1)" title="Turun" style="'+btnStyle+'">▼</button>')
+      +'</div></td>';
+    }
+
     rows += '<tr>'
       +'<td style="color:var(--muted);">'+(realIdx+1)+'</td>'
       +'<td><label style="cursor:pointer;display:block;width:34px;height:34px;" title="Ganti foto">'
