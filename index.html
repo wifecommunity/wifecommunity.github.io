@@ -4423,6 +4423,24 @@ waitFirebaseAndLoad();
 var _cropperInstance = null;
 var _cropCallback = null;
 var _cropAspect = 1;
+var _cropperReady = false;
+
+function _setCropBtnReady(ready) {
+  var btn = document.getElementById('cropApplyBtn');
+  if (!btn) return;
+  _cropperReady = ready;
+  if (ready) {
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.style.cursor = 'pointer';
+    btn.textContent = '✓ TERAPKAN';
+  } else {
+    btn.disabled = true;
+    btn.style.opacity = '0.45';
+    btn.style.cursor = 'not-allowed';
+    btn.textContent = '⏳ Memuat...';
+  }
+}
 
 function openCropModal(src, aspect, callback) {
   _cropCallback = callback;
@@ -4431,6 +4449,8 @@ function openCropModal(src, aspect, callback) {
   var img = document.getElementById('cropImage');
   // Destroy previous instance
   if(_cropperInstance) { _cropperInstance.destroy(); _cropperInstance = null; }
+  // Disable button immediately — cropper not ready yet
+  _setCropBtnReady(false);
   img.src = src;
   modal.style.display = 'flex';
   img.onload = function() {
@@ -4444,7 +4464,11 @@ function openCropModal(src, aspect, callback) {
       movable: true,
       zoomable: true,
       rotatable: true,
-      scalable: true
+      scalable: true,
+      ready: function() {
+        // Cropper.js selesai inisialisasi — aktifkan tombol TERAPKAN
+        _setCropBtnReady(true);
+      }
     });
   };
 }
@@ -4453,10 +4477,11 @@ function closeCropModal() {
   document.getElementById('cropModal').style.display = 'none';
   if(_cropperInstance) { _cropperInstance.destroy(); _cropperInstance = null; }
   _cropCallback = null;
+  _cropperReady = false;
 }
 
 function applyCrop() {
-  if(!_cropperInstance || !_cropCallback) return;
+  if(!_cropperInstance || !_cropCallback || !_cropperReady) return;
   var isWide = _cropAspect > 1;
   // Resolusi output dinaikkan jauh + kualitas JPEG tinggi supaya foto tetap tajam/HD, tidak buram/kompresi berlebihan
   var canvas = _cropperInstance.getCroppedCanvas({ maxWidth: isWide ? 1920 : 1280, maxHeight: isWide ? 1080 : 1920, fillColor: '#000', imageSmoothingQuality: 'high' });
@@ -4495,7 +4520,7 @@ function flipCrop() {
     </div>
     <div style="display:flex;gap:10px;margin-top:10px;">
       <button onclick="closeCropModal()" style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#9b7db8;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.9rem;padding:12px;border-radius:10px;cursor:pointer;">BATAL</button>
-      <button onclick="applyCrop()" style="flex:2;background:linear-gradient(135deg,#b845f5,#e040fb);border:none;color:#fff;font-family:'Orbitron',monospace;font-weight:700;font-size:0.85rem;letter-spacing:1px;padding:12px;border-radius:10px;cursor:pointer;">✓ TERAPKAN</button>
+      <button id="cropApplyBtn" onclick="applyCrop()" style="flex:2;background:linear-gradient(135deg,#b845f5,#e040fb);border:none;color:#fff;font-family:'Orbitron',monospace;font-weight:700;font-size:0.85rem;letter-spacing:1px;padding:12px;border-radius:10px;cursor:pointer;transition:opacity 0.2s;">✓ TERAPKAN</button>
     </div>
   </div>
 </div>
