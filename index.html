@@ -3384,10 +3384,14 @@ function showMemberProfile(m) {
   if(mpBanner) mpBanner.style.background = bannerColors[(divNum-1) % bannerColors.length];
 
   document.getElementById('memberProfileModal').classList.add('open');
+  history.pushState({ modal: 'memberProfile' }, '');
 }
 
 function closeMemberProfile() {
   document.getElementById('memberProfileModal').classList.remove('open');
+  if (history.state && history.state.modal) {
+    history.back();
+  }
 }
 
 // ===================== ROLE DETAIL POPUP (klik "+N" untuk lihat semua role) =====================
@@ -3403,9 +3407,11 @@ function showMemberRoles(e, nameEnc, rolesEnc){
   document.getElementById('roleModalName').textContent = name;
   document.getElementById('roleModalBadges').innerHTML = badgesHtml;
   document.getElementById('roleDetailModal').classList.add('open');
+  history.pushState({ modal: 'roleDetail' }, '');
 }
 function closeRoleModal(){
   document.getElementById('roleDetailModal').classList.remove('open');
+  if (history.state && history.state.modal) history.back();
 }
 
 // ===================== ROLE CHIP HELPERS =====================
@@ -3778,9 +3784,11 @@ function handleLogoTap() {
 function openAdminLogin() {
   document.getElementById('adminLoginModal').classList.add('open');
   document.getElementById('loginError').style.display = 'none';
+  history.pushState({ modal: 'adminLogin' }, '');
 }
 function closeAdminLogin() {
   document.getElementById('adminLoginModal').classList.remove('open');
+  if (history.state && history.state.modal) history.back();
 }
 function doAdminLogin() {
   const email = document.getElementById('adminEmail').value.trim();
@@ -4853,6 +4861,24 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   }
 })();
+
+// ===== TOMBOL BACK FISIK (Android / semua device) =====
+// Intercept back button agar menutup modal aktif, bukan keluar app
+window.addEventListener('popstate', function(e) {
+  // Cek modal mana yang sedang terbuka, tutup dari yang paling atas
+  if (document.getElementById('memberProfileModal').classList.contains('open')) {
+    document.getElementById('memberProfileModal').classList.remove('open');
+    return;
+  }
+  if (document.getElementById('roleDetailModal').classList.contains('open')) {
+    document.getElementById('roleDetailModal').classList.remove('open');
+    return;
+  }
+  if (document.getElementById('adminLoginModal').classList.contains('open')) {
+    document.getElementById('adminLoginModal').classList.remove('open');
+    return;
+  }
+});
 
 </script>
 
