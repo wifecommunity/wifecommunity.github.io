@@ -1022,6 +1022,21 @@ body:not(.admin-logged-in) .roster-avatar-wrap input[type=file] { display: none 
   align-items:center;justify-content:center;
 }
 .modal-overlay.open{display:flex;}
+/* Member Profile Modal */
+#memberProfileBox {
+  animation: slideUp 0.3s cubic-bezier(.34,1.56,.64,1);
+  box-shadow: 0 0 60px rgba(184,69,245,0.4), 0 20px 60px rgba(0,0,0,0.6);
+}
+#mpAvatar {
+  transition: transform 0.3s ease;
+}
+#memberProfileModal.open #mpAvatar {
+  animation: avatarPop 0.4s cubic-bezier(.34,1.56,.64,1) 0.1s both;
+}
+@keyframes avatarPop {
+  from { transform: scale(0.5); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
 .modal {
   background:linear-gradient(135deg,#0f0018,#1a0030);
   border:1px solid var(--border);
@@ -2157,6 +2172,52 @@ footer {
   </div>
 </div>
 
+<div class="modal-overlay" id="memberProfileModal" onclick="if(event.target===this)closeMemberProfile();">
+  <div class="modal" id="memberProfileBox" style="padding:0;overflow:hidden;max-width:360px;width:92%;border-radius:20px;background:linear-gradient(160deg,#1a0a2e,#120820);border:1px solid rgba(184,69,245,0.3);position:relative;">
+    <!-- Hero Photo Area -->
+    <div style="position:relative;width:100%;aspect-ratio:1/1;background:#0d0020;overflow:hidden;">
+      <img id="mpAvatar" src="" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
+      <!-- gradient overlay bottom -->
+      <div style="position:absolute;bottom:0;left:0;right:0;height:60%;background:linear-gradient(to top,rgba(18,8,32,0.95) 0%,rgba(18,8,32,0.4) 60%,transparent 100%);pointer-events:none;"></div>
+      <!-- gradient overlay top for close btn -->
+      <div style="position:absolute;top:0;left:0;right:0;height:70px;background:linear-gradient(to bottom,rgba(0,0,0,0.5),transparent);pointer-events:none;"></div>
+      <!-- Close button -->
+      <button onclick="closeMemberProfile()" style="position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.55);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.15);color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;line-height:32px;text-align:center;z-index:10;">✕</button>
+      <!-- Name & status overlaid on photo bottom -->
+      <div style="position:absolute;bottom:14px;left:16px;right:16px;">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:8px;">
+          <div style="min-width:0;">
+            <div id="mpName" style="font-family:'Rajdhani','Inter','Noto Sans',sans-serif;font-weight:700;font-size:1.3rem;color:#fff;line-height:1.2;word-break:break-word;text-shadow:0 2px 8px rgba(0,0,0,0.8);"></div>
+            <div id="mpDivisi" style="font-size:0.72rem;color:#c88aff;font-weight:600;letter-spacing:1px;margin-top:2px;text-shadow:0 1px 4px rgba(0,0,0,0.8);"></div>
+          </div>
+          <div id="mpStatusBadge" style="font-size:0.65rem;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;"></div>
+        </div>
+      </div>
+    </div>
+    <!-- Info Panel -->
+    <div style="padding:14px 16px 18px;">
+      <!-- Roles -->
+      <div style="margin-bottom:12px;">
+        <div style="font-size:0.65rem;color:#9b7db8;letter-spacing:1.5px;font-weight:700;margin-bottom:7px;">ROLE</div>
+        <div id="mpRoles" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+      </div>
+      <!-- Divider -->
+      <div style="height:1px;background:rgba(184,69,245,0.2);margin-bottom:12px;"></div>
+      <!-- Stats -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div style="background:rgba(184,69,245,0.08);border:1px solid rgba(184,69,245,0.18);border-radius:12px;padding:10px 14px;text-align:center;">
+          <div id="mpRoleCount" style="font-family:'Orbitron',monospace;font-size:1.3rem;font-weight:700;color:#e040fb;"></div>
+          <div style="font-size:0.62rem;color:#9b7db8;letter-spacing:1px;margin-top:2px;">TOTAL ROLE</div>
+        </div>
+        <div style="background:rgba(184,69,245,0.08);border:1px solid rgba(184,69,245,0.18);border-radius:12px;padding:10px 14px;text-align:center;">
+          <div id="mpDivisiRank" style="font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:700;color:#b845f5;"></div>
+          <div style="font-size:0.62rem;color:#9b7db8;letter-spacing:1px;margin-top:2px;">POSISI DIVISI</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="roleDetailModal" onclick="if(event.target===this)closeRoleModal();">
   <div class="modal role-modal">
     <button class="modal-close" onclick="closeRoleModal()">✕</button>
@@ -3236,7 +3297,7 @@ function renderMembers(list) {
           +'<div class="mc-member-headline">'
             +'<div class="mc-member-name">'+m.name+'</div>'
           +'</div>'
-          +'<button class="mc-menu-btn" onclick="mcMemberMenu(event)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="12" cy="19" r="1.2"/></svg></button>'
+          +'<button class="mc-menu-btn" onclick="mcMemberMenu(event,\''+encodeURIComponent(JSON.stringify(m))+'\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="12" cy="19" r="1.2"/></svg></button>'
         +'</div>'
         +'<div class="mc-badge-row">'
           +roleBadges
@@ -3249,9 +3310,84 @@ function renderMembers(list) {
   mcRenderPagination(data.length);
 }
 
-function mcMemberMenu(e){
+function mcMemberMenu(e, mEnc){
   if(e) e.stopPropagation();
-  // Hook point for future actions (edit/delete/etc). Currently informational.
+  try {
+    var m = JSON.parse(decodeURIComponent(mEnc));
+    showMemberProfile(m);
+  } catch(err) {}
+}
+
+function showMemberProfile(m) {
+  var roles = m.role ? m.role.split(',').map(function(r){return r.trim();}).filter(Boolean) : [];
+
+  // Avatar
+  var avatarEl = document.getElementById('mpAvatar');
+  avatarEl.src = m.photo || defaultAvatarDataUri(m.name);
+  avatarEl.onerror = function(){ this.onerror=null; this.src=defaultAvatarDataUri(m.name); };
+
+  // Nama
+  document.getElementById('mpName').textContent = m.name;
+
+  // Divisi
+  document.getElementById('mpDivisi').textContent = '🛡️ ' + (m.divisi || '—');
+
+  // Status badge
+  var statusEl = document.getElementById('mpStatusBadge');
+  if(m.active !== false) {
+    statusEl.textContent = '✦ AKTIF';
+    statusEl.style.background = 'rgba(74,222,128,0.15)';
+    statusEl.style.color = '#4ade80';
+    statusEl.style.border = '1px solid rgba(74,222,128,0.4)';
+  } else {
+    statusEl.textContent = '✦ NON-AKTIF';
+    statusEl.style.background = 'rgba(248,113,113,0.15)';
+    statusEl.style.color = '#f87171';
+    statusEl.style.border = '1px solid rgba(248,113,113,0.4)';
+  }
+
+  // Role badges
+  var rolesEl = document.getElementById('mpRoles');
+  if(roles.length) {
+    rolesEl.innerHTML = roles.map(function(r){
+      var rc = mcRoleColors[r] || '#9b7db8';
+      var icon = roleIconTag(r, 14);
+      return '<span class="mc-badge" style="--bc:'+rc+'22;--bc-border:'+rc+'66;--bc-text:'+rc+';font-size:0.75rem;padding:5px 10px;">'+(icon?icon+' ':'')+r+'</span>';
+    }).join('');
+  } else {
+    rolesEl.innerHTML = '<span style="color:var(--muted);font-size:0.8rem;">Belum ada role</span>';
+  }
+
+  // Total role
+  document.getElementById('mpRoleCount').textContent = roles.length || '—';
+
+  // Posisi di divisi (urutan ke berapa dalam divisinya)
+  var divMembers = siteData.members.filter(function(x){ return x.divisi === m.divisi && x.active !== false; });
+  var posIdx = divMembers.findIndex(function(x){ return x.name === m.name; });
+  document.getElementById('mpDivisiRank').textContent = posIdx >= 0 ? '#'+(posIdx+1) : '—';
+
+  // Warna banner sesuai divisi
+  var bannerColors = [
+    'linear-gradient(135deg,#2d0a4e,#b845f540,#e040fb30)',
+    'linear-gradient(135deg,#0a1a3e,#4570f540,#40a0fb30)',
+    'linear-gradient(135deg,#0a2e1a,#45f57040,#40fbaa30)',
+    'linear-gradient(135deg,#2e1a0a,#f5a04540,#fbd04030)',
+    'linear-gradient(135deg,#1a2e0a,#a0f54540,#d0fb4030)',
+    'linear-gradient(135deg,#2e0a1a,#f5456040,#fb40a030)',
+    'linear-gradient(135deg,#0a2e2e,#45f5f540,#40fbfb30)',
+    'linear-gradient(135deg,#1a0a2e,#7045f540,#9040fb30)',
+    'linear-gradient(135deg,#2e2a0a,#f5e04540,#fbf04030)',
+    'linear-gradient(135deg,#0a0a2e,#4545f540,#4040fb30)',
+  ];
+  var divNum = parseInt((m.divisi||'').replace(/\D/g,'')) || 1;
+  var mpBanner = document.getElementById('mpBanner');
+  if(mpBanner) mpBanner.style.background = bannerColors[(divNum-1) % bannerColors.length];
+
+  document.getElementById('memberProfileModal').classList.add('open');
+}
+
+function closeMemberProfile() {
+  document.getElementById('memberProfileModal').classList.remove('open');
 }
 
 // ===================== ROLE DETAIL POPUP (klik "+N" untuk lihat semua role) =====================
