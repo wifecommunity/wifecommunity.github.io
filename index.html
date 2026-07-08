@@ -3286,7 +3286,7 @@ function renderMembers(list) {
           var icon = roleIconTag(r, 13);
           return '<span class="mc-badge" style="--bc:'+rc+'22;--bc-border:'+rc+'66;--bc-text:'+rc+';">'+(icon?icon+' ':'')+r+'</span>';
         }).join('')
-        + (extra > 0 ? '<span class="mc-badge-more" onclick="showMemberRoles(event,\''+encodeURIComponent(m.name)+'\',\''+encodeURIComponent(roles.join('|'))+'\')">+'+extra+'</span>' : '')
+        + (extra > 0 ? '<span class="mc-badge-more" onclick="showMemberRoles(event,\''+encodeURIComponent(m.name).replace(/'/g,"%27")+'\',\''+encodeURIComponent(roles.join('|')).replace(/'/g,"%27")+'\')">+'+extra+'</span>' : '')
       : '<span class="mc-badge">—</span>';
     return '<div class="mc-member-card">'
       +'<div class="mc-member-avatar-wrap">'
@@ -3297,7 +3297,7 @@ function renderMembers(list) {
           +'<div class="mc-member-headline">'
             +'<div class="mc-member-name">'+m.name+'</div>'
           +'</div>'
-          +'<button class="mc-menu-btn" onclick="mcMemberMenu(event,\''+encodeURIComponent(JSON.stringify(m))+'\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="12" cy="19" r="1.2"/></svg></button>'
+          +'<button class="mc-menu-btn" onclick="mcMemberMenu(event,\''+encodeURIComponent(JSON.stringify(m)).replace(/'/g,"%27")+'\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="12" cy="19" r="1.2"/></svg></button>'
         +'</div>'
         +'<div class="mc-badge-row">'
           +roleBadges
