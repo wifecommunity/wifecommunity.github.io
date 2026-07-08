@@ -3081,15 +3081,15 @@ var mcStatIcons = {
 function mcUpdateStats(){
   var members = siteData.members || [];
   var totalMember = members.length;
-  var squadSet = {}; var onlineCount = 0;
+  var squadSet = {}; var activeCount = 0;
   members.forEach(function(m){
     if(m.divisi) squadSet[m.divisi] = true;
-    if(m.active) onlineCount++;
+    if(m.active) activeCount++;
   });
   var stats = [
     {key:'total', num:totalMember, desc:'TOTAL MEMBER'},
     {key:'divisi', num:Object.keys(squadSet).length, desc:'DIVISI AKTIF'},
-    {key:'online', num:onlineCount, desc:'MEMBER ONLINE'}
+    {key:'online', num:activeCount, desc:'MEMBER AKTIF'}
   ];
   var grid = document.getElementById('mcStatsGrid');
   if(!grid) return;
@@ -4063,7 +4063,12 @@ function memberUploadPhoto(input, idx) {
       siteData.members[idx].photo = url;
       renderEditMemberTable();
       filterMembers();
-      showToast('✓ Foto member diupdate!');
+      // Auto-save ke Firebase supaya foto tidak hilang saat refresh
+      dbSave().then(function(){
+        showToast('✓ Foto tersimpan ke cloud!');
+      }).catch(function(){
+        showToast('⚠️ Foto diupload tapi gagal simpan ke cloud. Klik SIMPAN KE CLOUD!');
+      });
     }
   });
 }
@@ -4080,6 +4085,7 @@ function toggleMemberStatus(idx) {
     siteData.members[idx].active = !siteData.members[idx].active;
     renderEditMemberTable();
     filterMembers();
+    mcUpdateStats(); // refresh stat aktif
     showToast('✓ Status member diupdate!');
   }
 }
@@ -4089,6 +4095,7 @@ function deleteMember(idx) {
     siteData.members.splice(idx, 1);
     renderEditMemberTable();
     filterMembers();
+    mcUpdateStats(); // refresh total setelah hapus
     showToast('🗑️ Member dihapus!');
   }
 }
@@ -4098,9 +4105,10 @@ function addMember() {
   var divisi = document.getElementById('newMemberSquad').value;
   var role = getPickerRoles('newMemberRolePicker');
   if(!name||!divisi) { showToast('⚡ Nama dan divisi wajib diisi!'); return; }
-  siteData.members.push({name:name, role:role||'', divisi:divisi, divisi:divisi, active:true});
+  siteData.members.push({name:name, role:role||'', divisi:divisi, active:true});
   renderMembers();
   renderEditMemberTable();
+  mcUpdateStats(); // refresh angka statistik
   document.getElementById('newMemberName').value='';
   document.getElementById('newMemberSquad').value='';
   clearPickerRoles('newMemberRolePicker');
