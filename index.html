@@ -3736,7 +3736,12 @@ function renderAdminAvatars() {
       ? '<img src="'+siteData.avatars[p.name]+'" alt="'+p.name+'">'
       : (p.emoji||'\u{1F464}');
     return '<div class="avatar-edit-item" title="Ganti foto '+p.name+'">'
-      +'<input type="file" accept="image/*" onchange="handleAvatarUpload(this,\''+p.name+'\')">'      +'<div class="ava">'+avaContent+'</div>'      +'<div class="ava-name">'+p.name+'</div>'      +'<div class="ava-badge">'+(p.role||p.divisi||'')+'</div>'      +'</div>';
+      +'<input type="file" accept="image/*" onchange="handleAvatarUpload(this,\''+p.name+'\')">'
+      +'<div class="ava">'+avaContent+'</div>'
+      +'<div class="ava-name">'+p.name+'</div>'
+      +'<div class="ava-badge">'+(p.role||p.divisi||'')+'</div>'
+      +'<button onclick="avatarSetByLink(\''+p.name+'\')" style="margin-top:4px;font-size:0.6rem;padding:2px 8px;border-radius:6px;border:1px solid rgba(184,69,245,0.4);background:rgba(184,69,245,0.12);color:#d090ff;cursor:pointer;font-family:Rajdhani,sans-serif;font-weight:700;width:100%;">🔗 Link</button>'
+      +'</div>';
   }
   var html = '<div style="font-family:Rajdhani,sans-serif;font-size:0.8rem;color:var(--muted);letter-spacing:1px;margin-bottom:8px;grid-column:1/-1;">⚙️ MANAGEMENT</div>';
   html += mgmt.map(makeAvaItem).join('');
@@ -3888,6 +3893,22 @@ function handleAvatarUpload(input, name) {
     renderSquadLeaders();
     renderAdminAvatars();
     showToast('✓ Foto ' + name + ' berhasil diganti!');
+  });
+}
+
+function avatarSetByLink(name) {
+  if(!isAdminLoggedIn()){showToast('⛔ Hanya admin yang bisa edit!'); return;}
+  var link = prompt('Paste link foto ' + name + ' (Google Drive / URL gambar):');
+  if (!link || !link.trim()) return;
+  var directUrl = convertToDirectUrl(link);
+  siteData.avatars[name] = directUrl;
+  renderCoreTeam();
+  renderSquadLeaders();
+  renderAdminAvatars();
+  dbSave().then(function(){
+    showToast('✓ Foto ' + name + ' tersimpan dari link!');
+  }).catch(function(){
+    showToast('⚠️ Foto diset tapi gagal simpan. Klik SIMPAN KE CLOUD!');
   });
 }
 
@@ -4183,10 +4204,13 @@ function renderEditMemberTable() {
 
     rows += '<tr>'
       +'<td style="color:var(--muted);">'+(realIdx+1)+'</td>'
-      +'<td><label style="cursor:pointer;display:block;width:34px;height:34px;" title="Ganti foto">'
-        +'<img src="'+(m.photo||defaultAvatarDataUri(m.name))+'" style="width:34px;height:34px;border-radius:50%;object-fit:cover;border:1px solid var(--border);display:block;" onerror="this.onerror=null;this.src=\''+defaultAvatarDataUri(m.name)+'\';">'
-        +'<input type="file" accept="image/*" style="display:none;" onchange="memberUploadPhoto(this,'+realIdx+')">'
-      +'</label></td>'
+      +'<td><div style="display:flex;flex-direction:column;align-items:center;gap:3px;">'
+        +'<label style="cursor:pointer;display:block;width:34px;height:34px;" title="Upload foto dari galeri">'
+          +'<img src="'+(m.photo||defaultAvatarDataUri(m.name))+'" style="width:34px;height:34px;border-radius:50%;object-fit:cover;border:1px solid var(--border);display:block;" onerror="this.onerror=null;this.src=\''+defaultAvatarDataUri(m.name)+'\';">'
+          +'<input type="file" accept="image/*" style="display:none;" onchange="memberUploadPhoto(this,'+realIdx+')">'
+        +'</label>'
+        +'<button onclick="memberSetPhotoByLink('+realIdx+')" title="Paste link Google Drive / URL" style="font-size:0.55rem;padding:1px 5px;border-radius:6px;border:1px solid rgba(184,69,245,0.4);background:rgba(184,69,245,0.12);color:#d090ff;cursor:pointer;white-space:nowrap;font-family:Rajdhani,sans-serif;font-weight:700;">🔗 Link</button>'
+      +'</div></td>'
       +'<td><input type="text" value="'+m.name.replace(/"/g,'&quot;')+'" onchange="updateMemberField('+realIdx+',\'name\',this.value)" style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--text);font-size:0.82rem;width:120px;"></td>'
       +'<td>'+rolePicker+'</td>'
       +'<td><select onchange="updateMemberField('+realIdx+',\'divisi\',this.value)" style="background:var(--card-bg);border:1px solid var(--border);color:var(--text);font-size:0.78rem;border-radius:6px;padding:2px 4px;">'+squadOpts+'</select></td>'
@@ -4215,6 +4239,35 @@ function memberUploadPhoto(input, idx) {
       });
     }
   });
+}
+
+// ===== FOTO DARI LINK (Google Drive / URL langsung) =====
+function convertToDirectUrl(url) {
+  url = url.trim();
+  // Google Drive share link: /file/d/ID/view atau open?id=ID
+  var m = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  if (m) return 'https://drive.google.com/thumbnail?id=' + m[1] + '&sz=w400';
+  // Google Drive thumbnail langsung
+  if (url.includes('drive.google.com/thumbnail')) return url;
+  // URL gambar biasa
+  return url;
+}
+
+function memberSetPhotoByLink(idx) {
+  if(!isAdminLoggedIn()) { showToast('⛔ Hanya admin yang bisa edit!'); return; }
+  var link = prompt('Paste link foto (Google Drive / URL gambar langsung):');
+  if (!link || !link.trim()) return;
+  var directUrl = convertToDirectUrl(link);
+  if(siteData.members[idx]) {
+    siteData.members[idx].photo = directUrl;
+    renderEditMemberTable();
+    filterMembers();
+    dbSave().then(function(){
+      showToast('✓ Foto tersimpan dari link!');
+    }).catch(function(){
+      showToast('⚠️ Foto diset tapi gagal simpan. Klik SIMPAN KE CLOUD!');
+    });
+  }
 }
 
 function updateMemberField(idx, field, val) {
