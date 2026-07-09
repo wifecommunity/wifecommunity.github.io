@@ -2667,6 +2667,9 @@ async function dbLoad() {
     // agar data yang sudah tersimpan di server sebelum rename tetap kompatibel.
     migrateLegacyDivisiData();
 
+    // Auto-sort: core management by position, squad leaders by divisi, members with leaders first
+    sortAllData();
+
     // Load foto dari Firestore (chunked)
     try {
       const [banner, avatarsStr, mediaImagesStr] = await Promise.all([
@@ -4005,6 +4008,8 @@ function saveMgmtRow(idx, section) {
     };
     p.badge = badgeMap[p.role] || p.role;
   }
+  // Auto-sort sesuai posisi setelah simpan
+  if(section === 'core') sortCoreTeam(); else { sortSquadLeaders(); sortMembersInDivisi(); }
   renderCoreTeam();
   renderSquadLeaders();
   renderMgmtEditor();
@@ -4037,6 +4042,79 @@ function addMgmtMember() {
   c.scrollTop = c.scrollHeight;
   showToast('➕ Anggota baru ditambahkan, isi data lalu simpan!');
 }
+
+// ===================== AUTO-SORT BY POSITION =====================
+var CORE_POSITION_ORDER = [
+  'Owner','Co-Owner','Asisten Owner',
+  'General Manager','Manager Tim Kompetitif',
+  'Head Coach','Coach','Assistant Coach',
+  'Analyst','Data Analyst','Performance Analyst',
+  'Kapten Tim Kompetitif',
+  'Talent Scout','Recruiter',
+  'Treasurer','Bendahara',
+  'Admin Event Organizer','Admin Sosmed',
+  'Content Creator','Videographer','Photographer',
+  'PR Manager','Humas',
+  'Sponsor Manager','Partnership Manager',
+  'IT Support','Web Admin'
+];
+var DIVISI_ORDER_LIST = ['Divisi 1','Divisi 2','Divisi 3','Divisi 4','Divisi 5','Divisi 6','Divisi 7','Divisi 8','Divisi 9','Divisi 10','W.I.F.E Alliance','W.I.F.E Aurora'];
+
+function sortCoreTeam() {
+  siteData.coreTeam.sort(function(a, b) {
+    var ai = CORE_POSITION_ORDER.indexOf(a.role);
+    var bi = CORE_POSITION_ORDER.indexOf(b.role);
+    if (ai === -1) ai = 999;
+    if (bi === -1) bi = 999;
+    return ai - bi;
+  });
+}
+
+function sortSquadLeaders() {
+  siteData.squadLeaders.sort(function(a, b) {
+    var ai = DIVISI_ORDER_LIST.indexOf(a.divisi);
+    var bi = DIVISI_ORDER_LIST.indexOf(b.divisi);
+    if (ai === -1) ai = 999;
+    if (bi === -1) bi = 999;
+    return ai - bi;
+  });
+}
+
+function sortMembersInDivisi() {
+  // Within each divisi, squad leaders come first; overall order follows divisi number
+  var leaderNames = {};
+  siteData.squadLeaders.forEach(function(sl) { leaderNames[sl.name] = true; });
+  // Group members by divisi preserving intra-divisi order, but leader always first
+  var groups = {};
+  siteData.members.forEach(function(m) {
+    var d = m.divisi || '';
+    if (!groups[d]) groups[d] = { leaders: [], others: [] };
+    if (leaderNames[m.name]) groups[d].leaders.push(m);
+    else groups[d].others.push(m);
+  });
+  // Rebuild flat array in divisi order
+  var sorted = [];
+  DIVISI_ORDER_LIST.forEach(function(d) {
+    if (groups[d]) {
+      groups[d].leaders.forEach(function(m){ sorted.push(m); });
+      groups[d].others.forEach(function(m){ sorted.push(m); });
+      delete groups[d];
+    }
+  });
+  // Append any unknown divisi
+  Object.keys(groups).forEach(function(d) {
+    groups[d].leaders.forEach(function(m){ sorted.push(m); });
+    groups[d].others.forEach(function(m){ sorted.push(m); });
+  });
+  siteData.members = sorted;
+}
+
+function sortAllData() {
+  sortCoreTeam();
+  sortSquadLeaders();
+  sortMembersInDivisi();
+}
+// ===================== END AUTO-SORT =====================
 
 function moveMember(realIdx, dir) {
   // Swap hanya dalam divisi yang sama
@@ -4212,6 +4290,7 @@ function addMember() {
   var role = getPickerRoles('newMemberRolePicker');
   if(!name||!divisi) { showToast('⚡ Nama dan divisi wajib diisi!'); return; }
   siteData.members.push({name:name, role:role||'', divisi:divisi, active:true});
+  sortMembersInDivisi(); // auto-sort: squad leader selalu tampil pertama
   renderMembers();
   renderEditMemberTable();
   mcUpdateStats(); // refresh angka statistik
