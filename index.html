@@ -2546,6 +2546,8 @@ const FIREBASE_CONFIG = {
 };
 
 let _db = null;
+let _dbLoading = false; // Guard: mencegah dbSave() berjalan saat dbLoad() belum selesai
+
 function getDb() {
   if(_db) return _db;
   if(typeof firebase === 'undefined') return null;
@@ -2620,10 +2622,17 @@ function migrateLegacyDivisiData(){
 }
 
 async function dbLoad() {
+  _dbLoading = true;
+  // Disable tombol SIMPAN KE CLOUD selama loading
+  document.querySelectorAll('[onclick="dbSave()"]').forEach(function(btn){
+    btn.disabled = true;
+    btn.style.opacity = '0.5';
+    btn.title = 'Tunggu data selesai dimuat dari Firebase...';
+  });
   try {
     // silent load
     const db = getDb();
-    if(!db) { showToast('\u26a0\ufe0f Firebase belum siap'); return; }
+    if(!db) { showToast('\u26a0\ufe0f Firebase belum siap'); _dbLoading = false; return; }
 
     // Load data teks
     const doc = await db.collection('wife').doc('siteData').get();
@@ -2631,7 +2640,9 @@ async function dbLoad() {
       const d = doc.data();
       if(d.coreTeam)     siteData.coreTeam     = d.coreTeam;
       if(d.squadLeaders) siteData.squadLeaders  = d.squadLeaders;
-      if(d.members)      siteData.members       = d.members;
+      if(d.members) {
+        siteData.members = d.members;
+      }
       if(d.announcement) siteData.announcement  = d.announcement;
       if(d.stats)        siteData.stats         = d.stats;
       if(d.events)       siteData.events        = d.events;
@@ -2673,10 +2684,24 @@ async function dbLoad() {
   } catch(e) {
     console.warn('dbLoad error:', e);
     showToast('\u26a0\ufe0f Gagal memuat: ' + e.message);
+  } finally {
+    // Selalu unset loading flag dan re-enable tombol simpan
+    _dbLoading = false;
+    document.querySelectorAll('[onclick="dbSave()"]').forEach(function(btn){
+      btn.disabled = false;
+      btn.style.opacity = '';
+      btn.title = '';
+    });
   }
 }
 
 async function dbSave() {
+  // KRITIS: Blokir save jika Firebase masih loading — mencegah data hardcoded
+  // menimpa data cloud yang belum sempat dimuat!
+  if(_dbLoading) {
+    showToast('\u23f3 Tunggu sebentar, data sedang dimuat dari Firebase...');
+    return;
+  }
   try {
     showToast('\u23f3 Menyimpan...');
     const db = getDb();
@@ -2766,127 +2791,7 @@ let siteData = {
   ],
   avatars: {},
   roleIcons: { Roamer:'', Jungler:'', 'Gold Lane':'', 'Mid Lane':'', 'EXP Lane':'', Flex:'' },
-      members: [
-    { name:'idc reinαα ɞ˚˙', role:'Mid Lane, Roamer', divisi:'Divisi 1', active:true },
-    { name:'sabrina', role:'Mid Lane, Roamer', divisi:'Divisi 1', active:true },
-    { name:'Introvert❀', role:'EXP Lane, Gold Lane, Mid Lane, Roamer', divisi:'Divisi 1', active:true },
-    { name:'¥4rR 50FT', role:'Gold Lane', divisi:'Divisi 1', active:true },
-    { name:'Blizrd', role:'Mid Lane, Gold Lane, Roamer', divisi:'Divisi 1', active:true },
-    { name:'メOｂｉｔo☂', role:'Gold Lane, EXP Lane', divisi:'Divisi 1', active:true },
-    { name:'Arya The destroyeR??', role:'Mid Lane, Roamer', divisi:'Divisi 1', active:true },
-    { name:'A25.', role:'EXP Lane, Roamer', divisi:'Divisi 1', active:true },
-    { name:'YOUR メ GIRL ꔪ', role:'Gold Lane, Mid Lane, EXP Lane', divisi:'Divisi 1', active:true },
-    { name:'super alex', role:'EXP Lane', divisi:'Divisi 1', active:true },
-    { name:'Claire', role:'Roamer', divisi:'Divisi 1', active:true },
-    { name:'who??', role:'Roamer, Mid Lane', divisi:'Divisi 1', active:true },
-    { name:'Faelnat Stecu', role:'Jungler, Gold Lane', divisi:'Divisi 1', active:true },
-    { name:'Zyunko', role:'Gold Lane', divisi:'Divisi 1', active:true },
-    { name:'only you lan', role:'Gold Lane', divisi:'Divisi 1', active:true },
-    { name:'— 鿅|•ɴᴜɢɪ', role:'Mid Lane, EXP Lane', divisi:'Divisi 2', active:true },
-    { name:'SuperVinn', role:'Jungler, EXP Lane', divisi:'Divisi 2', active:true },
-    { name:'Diana', role:'Mid Lane, Roamer', divisi:'Divisi 2', active:true },
-    { name:'Beyyyiii', role:'Mid Lane', divisi:'Divisi 2', active:true },
-    { name:'MfiwPro', role:'Flex', divisi:'Divisi 2', active:true },
-    { name:'QnNafisha', role:'Mid Lane, Gold Lane, Roamer, EXP Lane', divisi:'Divisi 2', active:true },
-    { name:'bastian33', role:'Roamer', divisi:'Divisi 2', active:true },
-    { name:'ゼマ hanaa! ୨ৎ', role:'Roamer, Mid Lane', divisi:'Divisi 2', active:true },
-    { name:'ᴮᴬᴰɢɪʀʟ"', role:'Mid Lane', divisi:'Divisi 2', active:true },
-    { name:'—Fárzzx☆', role:'Jungler, Gold Lane', divisi:'Divisi 2', active:true },
-    { name:'mudle', role:'Mid Lane, Roamer', divisi:'Divisi 2', active:true },
-    { name:'— Naa Dè Moon.', role:'Mid Lane, Roamer', divisi:'Divisi 2', active:true },
-    { name:'YiwaYiwa', role:'Mid Lane', divisi:'Divisi 2', active:true },
-    { name:'Athena', role:'Mid Lane, Roamer, Gold Lane', divisi:'Divisi 3', active:true },
-    { name:'my bini awaa!', role:'', divisi:'Divisi 3', active:true },
-    { name:'pumkinss ʚɞ', role:'Mid Lane, Roamer', divisi:'Divisi 3', active:true },
-    { name:'™Eagle¥ONE™', role:'', divisi:'Divisi 3', active:true },
-    { name:'blackfox[®]™', role:'Roamer, Mid Lane, EXP Lane', divisi:'Divisi 3', active:true },
-    { name:'gitaa', role:'', divisi:'Divisi 3', active:true },
-    { name:'°•Jillcervel•°', role:'', divisi:'Divisi 3', active:true },
-    { name:'~DPAW~', role:'Roamer, EXP Lane', divisi:'Divisi 3', active:true },
-    { name:'— Nααchy ʚїɞ', role:'Flex', divisi:'Divisi 3', active:true },
-    { name:'MatchaLatte', role:'Gold Lane, Jungler', divisi:'Divisi 3', active:true },
-    { name:'Baby face', role:'', divisi:'Divisi 3', active:true },
-    { name:'Poppy.Lauren~', role:'Jungler, Gold Lane', divisi:'Divisi 3', active:true },
-    { name:'虎\'Fazz"', role:'Gold Lane, Jungler', divisi:'Divisi 3', active:true },
-    { name:'Taa_', role:'Roamer', divisi:'Divisi 4', active:true },
-    { name:'•RDW', role:'EXP Lane', divisi:'Divisi 4', active:true },
-    { name:'mh17', role:'Mid Lane', divisi:'Divisi 4', active:true },
-    { name:'(TZ)4zdarxml', role:'Jungler', divisi:'Divisi 4', active:true },
-    { name:'anotherDell.', role:'Mid Lane', divisi:'Divisi 4', active:true },
-    { name:'fiia 이선연', role:'Mid Lane, Roamer', divisi:'Divisi 4', active:true },
-    { name:'ShinShikii', role:'Jungler', divisi:'Divisi 4', active:true },
-    { name:'udytia_', role:'Jungler', divisi:'Divisi 4', active:true },
-    { name:'VIRGO _234', role:'Mid Lane, Gold Lane', divisi:'Divisi 4', active:true },
-    { name:'ROAMER HARD', role:'Roamer', divisi:'Divisi 4', active:true },
-    { name:'Quuen*Cuby.', role:'Mid Lane, Roamer, Gold Lane', divisi:'Divisi 4', active:true },
-    { name:'Ãśmőçëùś', role:'EXP Lane, Roamer, Mid Lane, Gold Lane', divisi:'Divisi 4', active:true },
-    { name:'idfc Shynx', role:'EXP Lane, Roamer', divisi:'Divisi 4', active:true },
-    { name:'eleanor', role:'Jungler, Mid Lane', divisi:'Divisi 5', active:true },
-    { name:'WF Claudya Kusuma', role:'Mid Lane, Roamer', divisi:'Divisi 6', active:true },
-    { name:'ZaYzvxl', role:'Mid Lane, Jungler, Gold Lane', divisi:'Divisi 6', active:true },
-    { name:'zulfa, i will stay', role:'Roamer, Gold Lane', divisi:'Divisi 6', active:true },
-    { name:'izul, stay here', role:'Mid Lane, Roamer', divisi:'Divisi 6', active:true },
-    { name:'Yuta', role:'Jungler, Gold Lane', divisi:'Divisi 6', active:true },
-    { name:'ell sebelum before.', role:'Jungler, Gold Lane, Roamer, Mid Lane', divisi:'Divisi 6', active:true },
-    { name:'Daenerys.', role:'EXP Lane, Gold Lane, Mid Lane', divisi:'Divisi 6', active:true },
-    { name:'Rynn Kánaeru', role:'Roamer', divisi:'Divisi 6', active:true },
-    { name:'Kazel.', role:'Mid Lane, Roamer', divisi:'Divisi 6', active:true },
-    { name:'—Sànn Serfort夜', role:'Flex', divisi:'Divisi 6', active:true },
-    { name:'珠|•FeliceSpark', role:'Jungler, Gold Lane', divisi:'Divisi 6', active:true },
-    { name:'wulan_ʚଓ', role:'Mid Lane, Roamer', divisi:'Divisi 6', active:true },
-    { name:'RizzxTzy.', role:'Roamer', divisi:'Divisi 6', active:true },
-    { name:'Dynaa', role:'Mid Lane, Roamer', divisi:'Divisi 6', active:true },
-    { name:'Hello, PATRICK!?', role:'Mid Lane', divisi:'Divisi 7', active:true },
-    { name:'Hi, SPONGEBOB!?', role:'Jungler', divisi:'Divisi 7', active:true },
-    { name:'ʳᵉᵃˡ༆Eagle', role:'Gold Lane', divisi:'Divisi 7', active:true },
-    { name:'Tayoo.♡', role:'Mid Lane', divisi:'Divisi 7', active:true },
-    { name:'Alwaysalone-', role:'Mid Lane', divisi:'Divisi 7', active:true },
-    { name:'リヤー', role:'Mid Lane, Roamer', divisi:'Divisi 7', active:true },
-    { name:'butterfly°', role:'Mid Lane', divisi:'Divisi 7', active:true },
-    { name:'Zaza uhuy:)', role:'Mid Lane', divisi:'Divisi 7', active:true },
-    { name:'__Razes__', role:'Jungler', divisi:'Divisi 7', active:true },
-    { name:'naureen', role:'Mid Lane', divisi:'Divisi 7', active:true },
-    { name:'༺✿Rahayu✿༻', role:'EXP Lane', divisi:'Divisi 7', active:true },
-    { name:'ImuneTzy', role:'Mid Lane', divisi:'Divisi 7', active:true },
-    { name:'Lexvyy', role:'EXP Lane, Jungler', divisi:'Divisi 7', active:true },
-    { name:'Nyonya.Orlanda♡', role:'Mid Lane', divisi:'Divisi 7', active:true },
-    { name:'F O X X A 火', role:'Jungler, EXP Lane', divisi:'Divisi 8', active:true },
-    { name:'Dapz zz_Preseπ', role:'EXP Lane, Gold Lane, Jungler', divisi:'Divisi 8', active:true },
-    { name:'Ashilly.', role:'Roamer, Mid Lane', divisi:'Divisi 8', active:true },
-    { name:'CANDA亗', role:'EXP Lane, Gold Lane', divisi:'Divisi 8', active:true },
-    { name:'ibunya raffa', role:'Gold Lane, EXP Lane, Mid Lane, Roamer', divisi:'Divisi 8', active:true },
-    { name:'viouw...˃ࡇ˂', role:'Mid Lane, Roamer', divisi:'Divisi 8', active:true },
-    { name:'SuperToyY', role:'EXP Lane', divisi:'Divisi 8', active:true },
-    { name:'乄Reyy', role:'Mid Lane', divisi:'Divisi 8', active:true },
-    { name:'– LEVY OBLIVION', role:'Roamer', divisi:'Divisi 9', active:true },
-    { name:'sαnniყα!?', role:'Roamer', divisi:'Divisi 9', active:true },
-    { name:'tɑtɑ 태양', role:'Roamer', divisi:'Divisi 9', active:true },
-    { name:'Sasuke uchiha', role:'Mid Lane, Jungler, Roamer', divisi:'Divisi 9', active:true },
-    { name:'lín zé·', role:'Mid Lane, Roamer', divisi:'Divisi 9', active:true },
-    { name:'Veyy! 雪莉', role:'Gold Lane', divisi:'Divisi 9', active:true },
-    { name:'sii conaa', role:'Mid Lane', divisi:'Divisi 9', active:true },
-    { name:'cielhelionyx.', role:'Mid Lane', divisi:'Divisi 9', active:true },
-    { name:'ilysm keii <3', role:'Jungler, EXP Lane, Roamer', divisi:'Divisi 9', active:true },
-    { name:'Aera', role:'Mid Lane, Roamer', divisi:'Divisi 10', active:true },
-    { name:'*ბლტცწდ*', role:'', divisi:'Divisi 10', active:true },
-    { name:'メリー_ryy✿', role:'Roamer, Mid Lane', divisi:'Divisi 10', active:true },
-    { name:'Nan', role:'EXP Lane, Mid Lane', divisi:'Divisi 10', active:true },
-    { name:'Cyanch', role:'Roamer', divisi:'Divisi 10', active:true },
-    { name:'~Keenzy~', role:'Gold Lane', divisi:'Divisi 10', active:true },
-    { name:'Wong Tulus', role:'Jungler, EXP Lane', divisi:'Divisi 10', active:true },
-    { name:'ravenclaw', role:'Mid Lane, Roamer', divisi:'Divisi 10', active:true },
-    { name:'Xyuzennn', role:'Roamer', divisi:'W.I.F.E Alliance', active:true },
-    { name:'EVOS Pro Zhask', role:'Roamer', divisi:'W.I.F.E Alliance', active:true },
-    { name:'Uncle Yongs.', role:'Gold Lane, Mid Lane, Roamer', divisi:'W.I.F.E Alliance', active:true },
-    { name:'C 4 Y O U', role:'EXP Lane', divisi:'W.I.F.E Alliance', active:true },
-    { name:'gk usah,,', role:'Jungler', divisi:'W.I.F.E Alliance', active:true },
-    { name:'SENJA17', role:'Jungler', divisi:'W.I.F.E Alliance', active:true },
-    { name:'Hann Darkboy :v', role:'Mid Lane', divisi:'W.I.F.E Alliance', active:true },
-    { name:'Kaizyyy', role:'Mid Lane', divisi:'W.I.F.E Alliance', active:true },
-    { name:'REXROTH X ATHF', role:'EXP Lane', divisi:'W.I.F.E Alliance', active:true },
-    { name:'SuperTam', role:'Gold Lane', divisi:'W.I.F.E Alliance', active:true },
-    { name:'Eleanor V.2', role:'Jungler, Mid Lane', divisi:'W.I.F.E Alliance', active:true }
-  ],
+  members: [], // Data member disimpan sepenuhnya di Firebase — tidak ada data embed di HTML
   events: [],
   pastEvents: [],
   leaderboard: [
@@ -4232,11 +4137,15 @@ function memberUploadPhoto(input, idx) {
       renderEditMemberTable();
       filterMembers();
       // Auto-save ke Firebase supaya foto tidak hilang saat refresh
-      dbSave().then(function(){
-        showToast('✓ Foto tersimpan ke cloud!');
-      }).catch(function(){
-        showToast('⚠️ Foto diupload tapi gagal simpan ke cloud. Klik SIMPAN KE CLOUD!');
-      });
+      if(!_dbLoading) {
+        dbSave().then(function(){
+          showToast('✓ Foto tersimpan ke cloud!');
+        }).catch(function(){
+          showToast('⚠️ Foto diupload tapi gagal simpan ke cloud. Klik SIMPAN KE CLOUD!');
+        });
+      } else {
+        showToast('⚠️ Foto diset, tapi Firebase masih loading. Klik SIMPAN KE CLOUD setelah data muncul!');
+      }
     }
   });
 }
@@ -4652,13 +4561,6 @@ function closeMobileMenu(){}
 function showPageMobile(id){ gpMob(id); }
 
 // ===================== INIT =====================
-// Simpan backup data original
-const originalSiteData = JSON.parse(JSON.stringify({
-  coreTeam: siteData.coreTeam,
-  squadLeaders: siteData.squadLeaders,
-  members: siteData.members
-}));
-
 renderAll();
 if(isAdminLoggedIn()) { document.body.classList.add('admin-logged-in'); }
 // Tunggu Firebase siap sebelum load data
